@@ -1,0 +1,22 @@
+<!-- Views/Places/Details.cshtml -->
+@model Place
+@{
+    ViewData["Title"] = "Details";
+}
+<h2>@Model.Name</h2>
+<p>@Model.Description</p>
+<p>Visited: @Model.Visited</p>
+<form method="post" action="/Places/MarkVisited">
+    <input type="hidden" name="placeId" value="@Model.Id" />
+    <button type="submit">Mark as Visited</button>
+</form>
+<h3>Comments</h3>
+@foreach (var comment in Model.UserComments)
+{
+    <p>@comment.Comment - @comment.Date</p>
+}
+<form method="post" action="/Places/AddComment">
+    <input type="hidden" name="placeId" value="@Model.Id" />
+    <textarea name="comment"></textarea>
+    <button type="submit">Add Comment</button>
+</form>
