@@ -29,8 +29,18 @@
 </head>
 
 <body>
+    <h2 id="challenge"> Placeholder challenge - refill your water bottle</h2>
     <div id="feature-info"></div>
     <div id="map"></div>
+
+    <div id="commentsContainer">
+        <h3>Comments</h3>
+        <ul id="commentsList"></ul>
+        <form id="commentForm">
+            <textarea id="newComment" placeholder="Add a new comment"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 
     <!-- Include Leaflet library -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -39,7 +49,14 @@
         // Sample GeoJSON data with points
         var geojsonData = {
             "type": "FeatureCollection",
-            "features": [{ "type": "Feature", "id": 1, "geometry": { "type": "Point", "coordinates": [16.59448841, 49.22402153] }, "properties": { "OBJECTID": 1, "TITLE": "Ulice husitská", "DESCRIPTION": "Pítko je situované na rušné Husitské ulici a to v pruhu mezi komunikacemi, přímo na trase přechodů v těsné blízkosti Palackého třídy.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3c2NC_IS76U_EquLEZlleS9fbgXWdzP2eyAbs_s9Dj2sB-jGFGdJmHWe9Zi9nntmbtNbGvdMDaRkbhjEVtZ28KR9ws_vKn3TIDHq1jv8PukZz9xOLUMr5dYrqulkapFrdNeYrx0ZM8bRC2LGtHtOcFA=w528-h937-no?authuser=0", "GlobalID": "e4351f09-ad6d-44f3-ba58-7c445918c6f1", "PARO": null } }, { "type": "Feature", "id": 2, "geometry": { "type": "Point", "coordinates": [16.60779246, 49.20762662] }, "properties": { "OBJECTID": 2, "TITLE": "Park Lužánky - směr ulice Pionýrská", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3dYaOEgNxk0lGiZTpbjp6Bpit8NgB1t-h-4WzHOYjezKIfsQ-2OaXiOkSv512LkUSfvLMq4TC0jEICBfIZIozzsBJg_cmadjD1Ef4doDI2JGUxtyexLAZ07Tev1nBFPbXrosu7Y-8mB-mC76atxasaA=w528-h937-no?authuser=0", "GlobalID": "b2fd267d-13b1-488c-81ee-39f037560296", "PARO": null } }, { "type": "Feature", "id": 3, "geometry": { "type": "Point", "coordinates": [16.60861891, 49.20699278] }, "properties": { "OBJECTID": 3, "TITLE": "Park Lužánky - střed", "DESCRIPTION": "Centrální pítko v Lužánkách s prodlouženým kohoutkem umožňuje to nejpohodlnější naplnění vaší lahve vodou.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fxQYmMFSmPbBzBMvlugjy_ZANw4cA9YjiNNGuYL2u_AO8C-icRLsbit6Nvb2w3fHlVzsN2TWUN2G7S_t2t9NrOOjaCY1cMo8DCNBpCDAG6jbLq7kgLfMCakTKV3sJ19sw5Ao8y4qVkuLlPYfm5HPt8=w528-h937-no?authuser=0", "GlobalID": "6161208e-4115-48fb-87ed-7ea7e5980ff7", "PARO": null } }, { "type": "Feature", "id": 4, "geometry": { "type": "Point", "coordinates": [16.60917587, 49.20606547] }, "properties": { "OBJECTID": 4, "TITLE": "Park Lužánky - směr ulice Lužánecká", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fQ7b14LGSvH35AymxSOrRcEABnTQQq99Ms1isJ8OwF1s3a4dyxuRdjD13gB2Ciy-6khB52XZ2fCDyr_fUAKjbHCJutWIG_flKaIvxvYn9k4Xd72DHvR2J7RzHV9bxCyoSSRu5OFQ5OfjUyyHIaZ8Pa=w528-h937-no?authuser=0", "GlobalID": "3a212519-fd58-436f-bfe3-f61a2019269c", "PARO": null } }]
+            "features": [{
+                "type": "Feature", "id": 1, "geometry": { "type": "Point", "coordinates": [16.59448841, 49.22402153] }, "properties": {
+                    "OBJECTID": 1, "TITLE": "Ulice husitská", "DESCRIPTION": "Pítko je situované na rušné Husitské ulici a to v pruhu mezi komunikacemi, přímo na trase přechodů v těsné blízkosti Palackého třídy.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3c2NC_IS76U_EquLEZlleS9fbgXWdzP2eyAbs_s9Dj2sB-jGFGdJmHWe9Zi9nntmbtNbGvdMDaRkbhjEVtZ28KR9ws_vKn3TIDHq1jv8PukZz9xOLUMr5dYrqulkapFrdNeYrx0ZM8bRC2LGtHtOcFA=w528-h937-no?authuser=0", "GlobalID": "e4351f09-ad6d-44f3-ba58-7c445918c6f1", "PARO": null, "COMMENTS": [
+                        { "text": "Comment 1 for Place 1" },
+                        { "text": "Comment 2 for Place 1" }
+                    ]
+                }
+            }, { "type": "Feature", "id": 2, "geometry": { "type": "Point", "coordinates": [16.60779246, 49.20762662] }, "properties": { "OBJECTID": 2, "TITLE": "Park Lužánky - směr ulice Pionýrská", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3dYaOEgNxk0lGiZTpbjp6Bpit8NgB1t-h-4WzHOYjezKIfsQ-2OaXiOkSv512LkUSfvLMq4TC0jEICBfIZIozzsBJg_cmadjD1Ef4doDI2JGUxtyexLAZ07Tev1nBFPbXrosu7Y-8mB-mC76atxasaA=w528-h937-no?authuser=0", "GlobalID": "b2fd267d-13b1-488c-81ee-39f037560296", "PARO": null } }, { "type": "Feature", "id": 3, "geometry": { "type": "Point", "coordinates": [16.60861891, 49.20699278] }, "properties": { "OBJECTID": 3, "TITLE": "Park Lužánky - střed", "DESCRIPTION": "Centrální pítko v Lužánkách s prodlouženým kohoutkem umožňuje to nejpohodlnější naplnění vaší lahve vodou.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fxQYmMFSmPbBzBMvlugjy_ZANw4cA9YjiNNGuYL2u_AO8C-icRLsbit6Nvb2w3fHlVzsN2TWUN2G7S_t2t9NrOOjaCY1cMo8DCNBpCDAG6jbLq7kgLfMCakTKV3sJ19sw5Ao8y4qVkuLlPYfm5HPt8=w528-h937-no?authuser=0", "GlobalID": "6161208e-4115-48fb-87ed-7ea7e5980ff7", "PARO": null } }, { "type": "Feature", "id": 4, "geometry": { "type": "Point", "coordinates": [16.60917587, 49.20606547] }, "properties": { "OBJECTID": 4, "TITLE": "Park Lužánky - směr ulice Lužánecká", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fQ7b14LGSvH35AymxSOrRcEABnTQQq99Ms1isJ8OwF1s3a4dyxuRdjD13gB2Ciy-6khB52XZ2fCDyr_fUAKjbHCJutWIG_flKaIvxvYn9k4Xd72DHvR2J7RzHV9bxCyoSSRu5OFQ5OfjUyyHIaZ8Pa=w528-h937-no?authuser=0", "GlobalID": "3a212519-fd58-436f-bfe3-f61a2019269c", "PARO": null } }]
         };
 
         // Initialize Leaflet map
@@ -56,12 +73,44 @@
             infoElement.innerHTML = '<strong>' + feature.properties.TITLE + '</strong><br>' + feature.properties.DESCRIPTION;
         }
 
+        @* function updateChallengeInfo(challenge) {
+            var infoElement = document.getElementById('challenge');
+            infoElement.innerHTML = '<strong>' + challenge.name;
+            } *@
+
+            function updateComments(comments) {
+                const commentsList = document.getElementById('commentsList');
+                commentsList.innerHTML = '';
+                comments.forEach(comment => {
+                    const li = document.createElement('li');
+                    li.textContent = comment.text;
+                    commentsList.appendChild(li);
+                });
+            }
+
+        // Function to handle form submission for adding new comment
+        document.getElementById('commentForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const newComment = document.getElementById('newComment').value;
+            const placeId = 1; // Example: replace with actual place id logic if needed
+
+            // Assuming you directly update the comments array in the GeoJSON
+            geojsonData.features[0].properties.COMMENTS.push({ text: newComment });
+
+            // Update comments list in UI
+            updateComments(geojsonData.features[0].properties.COMMENTS);
+
+            // Clear textarea
+            document.getElementById('newComment').value = '';
+        });
+
         // Add GeoJSON layer with click event handling
         L.geoJSON(geojsonData, {
             onEachFeature: function (feature, layer) {
                 // Bind click event
                 layer.on('click', function (e) {
                     updateFeatureInfo(feature);
+                    updateComments(feature.properties.COMMENTS);
                 });
             }
         }).addTo(map);
