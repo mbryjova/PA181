@@ -8,7 +8,7 @@ using NewlyReused.Models;
 
 namespace NewlyReused.Controllers
 {
-    public class PlacesController: Controller
+    public class PlacesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -59,5 +59,35 @@ namespace NewlyReused.Controllers
             }
             return RedirectToAction("Details", new { id = placeId });
         }
+
+        // PlacesController.cs
+        [HttpGet]
+        public IActionResult GetPlacesGeoJson()
+        {
+            var places = _context.Places.ToList();
+
+            var geoJson = new
+            {
+                type = "FeatureCollection",
+                features = places.Select(place => new
+                {
+                    type = "Feature",
+                    geometry = new
+                    {
+                        type = "Point",
+                        coordinates = new[] { place.Longitude, place.Latitude }
+                    },
+                    properties = new
+                    {
+                        id = place.Id,
+                        name = place.Name,
+                        description = place.Description
+                    }
+                })
+            };
+
+            return Json(geoJson);
+        }
+
     }
 }
