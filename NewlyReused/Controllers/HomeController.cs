@@ -22,6 +22,11 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Privacy()
+    {
+        return View();
+    }
+
     public async Task<IActionResult> Index2()
     {
         // Path to your GeoJSON file
