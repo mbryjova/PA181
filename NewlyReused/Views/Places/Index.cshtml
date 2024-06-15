@@ -526,7 +526,7 @@
         }]};
 
 
-        geojsonData2 = @geoJsonFeatures2; //TODO - nevím jak sem dostat ten obsah geoJsonFeatures2 - když vypíšu obsah do konzole a to vložím sem nahoru přímo do proměnné, funguje to...
+        //geojsonData2 = geoJsonFeatures2; //TODO - nevím jak sem dostat ten obsah geoJsonFeatures2 - když vypíšu obsah do konzole a to vložím sem nahoru přímo do proměnné, funguje to...
 
         // Initialize Leaflet map to brno
         var map = L.map('map').setView([49.1951, 16.6068], 13);
@@ -604,7 +604,6 @@
 
         // Add GeoJSON layer with click event handling
         L.geoJSON(geojsonData2, {
-            Debug.WriteLine("My debug string here");
             onEachFeature: function (feature, layer) {
                 // Bind click event
                 layer.on('click', function (e) {
