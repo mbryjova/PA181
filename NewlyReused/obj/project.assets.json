@@ -4173,19 +4173,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lenovo\\.nuget\\packages\\": {}
+    "/Users/klarakubickova/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\2_semestrNMgr\\pa181\\PA181\\NewlyReused\\NewlyReused.csproj",
+      "projectUniqueName": "/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/NewlyReused.csproj",
       "projectName": "NewlyReused",
-      "projectPath": "C:\\Users\\Lenovo\\Documents\\2_semestrNMgr\\pa181\\PA181\\NewlyReused\\NewlyReused.csproj",
-      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lenovo\\Documents\\2_semestrNMgr\\pa181\\PA181\\NewlyReused\\obj\\",
+      "projectPath": "/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/NewlyReused.csproj",
+      "packagesPath": "/Users/klarakubickova/.nuget/packages/",
+      "outputPath": "/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/klarakubickova/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4256,7 +4256,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

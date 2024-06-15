@@ -1,6 +1,11 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using NewlyReused.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
+
 
 namespace NewlyReused.Controllers;
 
@@ -9,17 +14,23 @@ public class HomeController : Controller
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _env;
 
+    private readonly HttpClient _httpClient;
+
+
     public HomeController(ApplicationDbContext context, IWebHostEnvironment env)
     {
         _context = context;
         _env = env;
+        _httpClient = new HttpClient();
     }
 
 
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        {
+            return View();
+        }
     }
 
     public IActionResult Privacy()

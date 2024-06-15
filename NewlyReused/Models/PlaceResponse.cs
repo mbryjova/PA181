@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Text.Json.Serialization;
-using NewlyReused.Models;
+using System.Threading.Tasks;
 
 namespace NewlyReused.Models
 {
-    public class Place
+    public class PlaceResponse
     {
     [JsonPropertyName("type")]
     public string Type { get; set; }
