@@ -18,12 +18,14 @@
             border: 1px solid #ccc;
             padding: 10px;
             margin-top: 10px;
-            text-align: center; /* Center align text */
-             border-radius: 5px;
+            text-align: center;
+            /* Center align text */
+            border-radius: 5px;
         }
 
         .description-container p {
-            font-size: 18px; /* Increase font size */
+            font-size: 18px;
+            /* Increase font size */
         }
 
         #map {
@@ -41,15 +43,17 @@
 </head>
 
 <body>
-    
+
     <div class="text-center">
         <h3 class="display-4">Welcome to this week's challenge:</h3>
-            <div id="challenge"></div>
+        <div id="challenge"></div>
     </div>
 
-    <div id="challenge-info"></div> 
+    <div id="challenge-info"></div>
     <div class="text-center">
-        <a href="#" id="impact-link" class="impact-link"style="font-size: 20px; font-weight: bold; margin-top: 50px; margin-bottom: 50px;">Read more about the impact I can make</a><br>
+        <a href="#" id="impact-link" class="impact-link"
+            style="font-size: 20px; font-weight: bold; margin-top: 50px; margin-bottom: 50px;">Read more about the
+            impact I can make</a><br>
     </div>
     <div id="map"></div>
     <div id="feature-info"></div>
@@ -538,24 +542,24 @@
         }
 
         function generateDetailLink(challengeName) {
-        switch (challengeName) {
+            switch (challengeName) {
                 case "Thrift Store":
-                    return  "/Home/Detail1";
+                    return "/Home/Detail1";
                 case "Rekrabicka - Reusable Takeaway Container":
-                    return  "/Home/Detail2";
+                    return "/Home/Detail2";
                 case "Rekelimek - Reusable Coffee Cup":
-                    return  "/Home/Detail3";
+                    return "/Home/Detail3";
                 case "Package-free Store":
-                    return  "/Home/Detail4";
+                    return "/Home/Detail4";
                 case "Water Fountain":
-                    return  "/Home/Detail5";
+                    return "/Home/Detail5";
                 case "Repair Shop":
-                    return  "/Home/Detail6";
+                    return "/Home/Detail6";
                 default:
                     return "/Home/Detail";
             }
         }
-    
+
 
         // Get the current date
         const currentDate = new Date();
@@ -565,12 +569,12 @@
         const challengeIndex = weekNumber % 6;
 
         // na zkoušku ze fungujou všechny
-        //const challengeIndex = 1
+        //const challengeIndex = 2
 
         // Select the challenge
         const selectedChallenge = challenges[challengeIndex];
 
-        
+
         const description = generateDescription(selectedChallenge.name);
 
         // Get the URL based on selectedChallenge.name

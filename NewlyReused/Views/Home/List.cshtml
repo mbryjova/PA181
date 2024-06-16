@@ -459,8 +459,8 @@
         const weekNumber = getWeekNumber(currentDate);
 
         // Calculate the index using modulo 6
-        //const challengeIndex = weekNumber % 6;
-        const challengeIndex = 3
+        const challengeIndex = weekNumber % 6;
+        //const challengeIndex = 2
         const currentChallenge = challenges[challengeIndex]
 
         var data = currentChallenge.data.features;
@@ -474,9 +474,10 @@
         tableHTML += '<thead><tr><th>Place ID</th><th>Name</th></tr></thead>';
         tableHTML += '<tbody>';
 
-        data.forEach(function (item) {
+        data.forEach(function (item, index) {
             tableHTML += '<tr class="table-row">';
-            tableHTML += '<td>' + item.id + '</td>';
+            var ind = index + 1
+            tableHTML += '<td>' + ind + '</td>';
             if (currentChallenge.id === 1) {
                 tableHTML += '<td class="stop-name">' + item.properties.title + '</td>';
             }
