@@ -43,6 +43,41 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Detail()
+    {
+        return View();
+    }
+    public IActionResult Detail1()
+    {
+       return View();
+    }
+
+    public IActionResult Detail2()
+        {
+            return View();
+        }
+
+    public IActionResult Detai3l()
+        {
+            return View();
+        }
+
+    public IActionResult Detail4()
+        {
+            return View();
+        }
+
+    public IActionResult Detail5()
+        {
+            return View();
+        }
+
+    public IActionResult Detail6()
+        {
+            return View();
+        }
+
+
     public async Task<IActionResult> Index2()
     {
         // Path to your GeoJSON file

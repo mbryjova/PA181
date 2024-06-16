@@ -9,47 +9,75 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = NewlyReused
 build_property.RootNamespace = NewlyReused
-build_property.ProjectDir = c:\Users\Lenovo\Documents\2_semestrNMgr\pa181\newPA181\PA181\NewlyReused\
+build_property.ProjectDir = /Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\Lenovo\Documents\2_semestrNMgr\pa181\newPA181\PA181\NewlyReused
+build_property.MSBuildProjectDirectory = /Users/klarakubickova/Documents/GitHub/PA181/NewlyReused
 build_property._RazorSourceGeneratorDebug = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/Home/List.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMaXN0LmNzaHRtbA==
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Detail1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWwxLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Detail2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWwyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/Places/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhY2VzXEluZGV4LmNzaHRtbA==
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Detail3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWwzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Detail4.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWw0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Detail5.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWw1LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Detail6.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXRhaWw2LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Lenovo/Documents/2_semestrNMgr/pa181/newPA181/PA181/NewlyReused/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-sy5m40u42v
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9MaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Places/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxhY2VzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/klarakubickova/Documents/GitHub/PA181/NewlyReused/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-uej02d6ims
