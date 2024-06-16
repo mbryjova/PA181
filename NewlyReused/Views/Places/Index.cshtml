@@ -11,10 +11,10 @@
             return string.Empty;
 
         return value
-            .Replace("\\", "\\\\") // Escape backslashes
-            .Replace("\"", "\\\"")  // Escape quotes
-            .Replace("\r", "\\r")   // Escape carriage returns
-            .Replace("\n", "\\n");  // Escape newlines
+        .Replace("\\", "\\\\") // Escape backslashes
+        .Replace("\"", "\\\"") // Escape quotes
+        .Replace("\r", "\\r") // Escape carriage returns
+        .Replace("\n", "\\n"); // Escape newlines
     }
 }
 
@@ -30,22 +30,22 @@
         var description = JsonEscape(stop.Properties.Description);
 
         geoJsonFeatures2.Append($@"
-        {{
-            ""type"": ""Feature"",
-            ""id"": {id},
-            ""geometry"": {{
-                ""type"": ""Point"",
-                ""coordinates"": [{x}, {y}]
-            }},
-            ""properties"": {{
-                ""title"": ""{name}"",
-                ""description"": ""{description}""
-            }}
-        }},");
+{{
+""type"": ""Feature"",
+""id"": {id},
+""geometry"": {{
+""type"": ""Point"",
+""coordinates"": [{x}, {y}]
+}},
+""properties"": {{
+""title"": ""{name}"",
+""description"": ""{description}""
+}}
+}},");
     }
     geoJsonFeatures2.Length--; // Remove the last comma
     geoJsonFeatures2.Append("]}");
-    geoJsonFeatures2.ToString();  
+    geoJsonFeatures2.ToString();
 }
 
 
@@ -74,456 +74,445 @@
 
 <body>
     <div class="container">
-    <div class="text-center">
-        <h1 class="display-4">Spots</h1>
-        <p class="lead">Here you can find a list of all available spots to fulfill the challenge for this week:</p>
+        <div class="text-center">
+            <h1 class="display-4">Spots</h1>
+            <p class="lead">Here you can find a list of all available spots to fulfill the challenge for this week:</p>
+        </div>
+        <div class="text-center">
+            <a href="/Places/Index" class="btn-primary">View Places</a>
+        </div>
     </div>
-    <div class="text-center">
-        <a href="/Places/Index" class="btn-primary">View Stops</a>
-    </div>
-</div>
     <h2 id="challenge"></h2>
     <div id="feature-info"></div>
     <div id="map"></div>
 
-    <div id="commentsContainer">
-        <h3>Comments</h3>
-        <ul id="commentsList"></ul>
-        <form id="commentForm">
-            <textarea id="newComment" placeholder="Add a new comment"></textarea>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+
 
     <!-- Include Leaflet library -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
         // Sample GeoJSON data with points
-        var challenges = [{ "id": 1, "name": "Prvni challenge" }, { "id": 2, "name": "Druha challenge" }, { "id": 3, "name": "Treti challenge" }, { "id": 4, "name": "Treti challenge" }, { "id": 5, "name": "Treti challenge" }, { "id": 6, "name": "Treti challenge" }]
-
-        var geojsonData = {
-            "type": "FeatureCollection",
-            "features": [{
-                "type": "Feature", "id": 1, "geometry": { "type": "Point", "coordinates": [16.59448841, 49.22402153] }, "properties": {
-                    "OBJECTID": 1, "TITLE": "Ulice husitská", "DESCRIPTION": "Pítko je situované na rušné Husitské ulici a to v pruhu mezi komunikacemi, přímo na trase přechodů v těsné blízkosti Palackého třídy.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3c2NC_IS76U_EquLEZlleS9fbgXWdzP2eyAbs_s9Dj2sB-jGFGdJmHWe9Zi9nntmbtNbGvdMDaRkbhjEVtZ28KR9ws_vKn3TIDHq1jv8PukZz9xOLUMr5dYrqulkapFrdNeYrx0ZM8bRC2LGtHtOcFA=w528-h937-no?authuser=0", "GlobalID": "e4351f09-ad6d-44f3-ba58-7c445918c6f1", "PARO": null, "COMMENTS": [
-                        { "text": "Comment 1 for Place 1" },
-                        { "text": "Comment 2 for Place 1" }
-                    ]
+        var challenges = [
+            {
+                "id": 1, "name": "Prvni challenge", "data": {
+                    "type": "FeatureCollection", "features": [
+                        {
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5944884120115, 49.2240215265896]
+                            },
+                            "properties": {
+                                "title": "Ulice husitská",
+                                "description": "Pítko je situované na rušné Husitské ulici a to v pruhu mezi komunikacemi, přímo na trase přechodů v těsné blízkosti Palackého třídy."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6077924613693, 49.2076266174456]
+                            },
+                            "properties": {
+                                "title": "Park Lužánky - směr ulice Pionýrská",
+                                "description": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 3,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6086189114307, 49.2069927752143]
+                            },
+                            "properties": {
+                                "title": "Park Lužánky - střed",
+                                "description": "Centrální pítko v Lužánkách s prodlouženým kohoutkem umožňuje to nejpohodlnější naplnění vaší lahve vodou."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 4,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6091758669069, 49.2060654728664]
+                            },
+                            "properties": {
+                                "title": "Park Lužánky - směr ulice Lužánecká",
+                                "description": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 5,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6130026900172, 49.2028843415203]
+                            },
+                            "properties": {
+                                "title": "Náměstí 28. října",
+                                "description": "Nově vzniklé pítko v rámci projektu Studenského Brna leží mezi dětským hřištěm a kvádrem památníku obětem holokaustu."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 6,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6023307044419, 49.202549782604]
+                            },
+                            "properties": {
+                                "title": "Tyršův sad",
+                                "description": "V rámci dětského hřiště v Tyršově sadu můžete využít zdejší litinové pítko se žlutou odkapávací &quot;miskou,&quot; vhodnou i pro pití čtyřnohých domácích mazlíčků"
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 7,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6107658849598, 49.1990044929148]
+                            },
+                            "properties": {
+                                "title": "Park Koliště III - Janáčkovo divadlo",
+                                "description": "Před Janáčkovým divadlem teď můžete narazit na mnoho vodních prvků, ovšem za pitnou vodou se vydejte do parku  přímo za sochou Leoše Janáčka směrem k ulici Koliště. Tam najdete pískovcový kvádr, který slouží jako přívod pitné vody."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 8,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6064090558318, 49.1989751434296]
+                            },
+                            "properties": {
+                                "title": "Park Moravské náměstí",
+                                "description": "V centru parku na Moravském náměstí se můžete zastavit u příjemného pítka a napustit si například vodu do lahve na další cestu."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 9,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5969947116542, 49.1994623426295]
+                            },
+                            "properties": {
+                                "title": "Park Obilní trh",
+                                "description": "V parku Obilní trh najdete pítko v rohu parku u dětského hřiště ležícího u ulice Gorkého."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 10,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5827474312481, 49.2030839019014]
+                            },
+                            "properties": {
+                                "title": "Park Kraví hora",
+                                "description": "Park na Kraví hoře má své pítko přímo u přístřešku pro turisty situovaného u jezírka."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 11,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.603965638259, 49.1965038542999]
+                            },
+                            "properties": {
+                                "title": "Komenského náměstí",
+                                "description": "Nově vzniklé pítko v rámci projektu Studenstkého Brna se nachází v malém parčíku před budovou JAMU na straně blíže k Solniční ulici."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 12,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.60577125198, 49.1965742965548]
+                            },
+                            "properties": {
+                                "title": "Česká (před Avionem)",
+                                "description": "Umělecky ztvárněné pítko se zobrazením zvířat najdete na ulici Česká před Avionem. Ačkoliv se může zdát, že se jedná pouze o fontánu, není to pravda. Voda zde je pitná a co víc, spodní část tohoto fontánového pítka je určena pro psy, takže na své si přijdou i vaši čtyřnozí kamarádi."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 13,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6092207826711, 49.1966036474647]
+                            },
+                            "properties": {
+                                "title": "Jakubské náměstí",
+                                "description": "Za kostelem Svatého Jakuba, je v letních měsících jedno z nejživějších náměstí v Brně, ač malinké náměstí přitahuje mnoha lákadly, kromě vyhlášeného výčepu a cukrárny zde můžete najít Zlatou studnu, tedy pítko ve tvaru obráceného kužele."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 14,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6074600847142, 49.1952417468992]
+                            },
+                            "properties": {
+                                "title": "Náměstí Svobody",
+                                "description": "Pítko na náměstí Svobody, které najdete v rohu náměstí u ústí ulice Česká, doplňují verše Jana Skácela a designově působí jako malý bráška velké Skácelovy kašny na druhé straně náměstí. Ovšem pokud potřebujete doplnit vodu do své lahve, pohodlně si ji spíše doplníte u jiného typu pítka ležící v blízkosti tohoto. Ideální je pítko v parném dni, jako záchytný bod pro doplnění tekutin."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 15,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6129757405587, 49.1952182655261]
+                            },
+                            "properties": {
+                                "title": "Malinovského náměstí",
+                                "description": "Na Malinovského náměstí najdete nerezové pítko s tlačeným ventilem jen pár kroků od pocty Edisonovi, tedy od žárovek. Je to ideální příležitost doplnit tekutiny při cestě městem, pokud však hledáte místo pro doplnění vody do své lahve, nebude toto pítko to pravé."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 16,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6116462339382, 49.1926235051336]
+                            },
+                            "properties": {
+                                "title": "Františkánské náměstí",
+                                "description": "Františkánské náměstí je trochu opomíjeným místem Brněnského centra, důvodem k zastavení může být právě zdejší pítko, které představuje jen nepatrou zacházku z ulice Minoritská. Takže pokud hledáte klid od shonu a proudění hlavních ulic, tohle to správné místo kde si můžete pohodlně naplnit i lahev."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 17,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6093465468108, 49.1924826092707]
+                            },
+                            "properties": {
+                                "title": "Zelný trh",
+                                "description": "Na zelném trhu můžete nalézt pítko v dolní části prostranství před hotelem Grandezza. Jedná se o pískovcové koryto s elegantním přívodem vody, taktéž zakomponovaného do pískovce."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 18,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6060856623295, 49.1907272480037]
+                            },
+                            "properties": {
+                                "title": "Denisovy sady - směr ulice Nové sady",
+                                "description": "Nerezové pítko kuželového tvaru. Voda vytéká z vrcholu kužele, pokud si chcete natočit vodu např. do láhve bude lepší využít pítko jiného typu. Pítko je skvělým osvěžením ve slunci vyprahlých Denisových sadech."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 19,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.605663454146, 49.1911323369013]
+                            },
+                            "properties": {
+                                "title": "Denisovy sady - směr ulice Biskupská",
+                                "description": "Nerezové pítko kuželového tvaru. Voda vytéká z vrcholu kužele, pokud si chcete natočit vodu např. do láhve bude lepší využít pítko jiného typu. Pítko je skvělým osvěžením ve slunci vyprahlých Denisových sadech."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 20,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6046932736391, 49.1915256809175]
+                            },
+                            "properties": {
+                                "title": "Park Studánka",
+                                "description": "Pítko se nachází uvnitř altánku a je otevřeno v období duben - říjen mezi 10:00-19:00 hod, mimo tuto dobu je zavřeno mřížemi."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 21,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5969767453485, 49.1874746748866]
+                            },
+                            "properties": {
+                                "title": "Vnitroblok Křídlovická-Zahradnická",
+                                "description": "V rámci zrekonstruovaného vnitrobloku se nachází pítko v těsné blízkosti dětského hřiště i grilovacího místa. Vnitroblok je otevřen od 6:00 do 22:00, mimo tuto dobu je uzamčen."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 22,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5964287730252, 49.1872867940949]
+                            },
+                            "properties": {
+                                "title": "Vnitroblok Křídlovická-Zahradnická",
+                                "description": "Toto pítko je v rámci vnitrobloku umístěno uvnitř oploceného výběhu pro velké psy. Výběh je otevřen od 5:00 do 24:00, mimo tuto dobu je uzamčen."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 23,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.607244489046, 49.1911558202139]
+                            },
+                            "properties": {
+                                "title": "Petrov",
+                                "description": "Zdejší pískovcové pítko spirálovitého tvaru se nachází před budovou Diecézního muzea Petrov."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 24,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5905448079142, 49.2230417402972]
+                            },
+                            "properties": {
+                                "title": "Slovanské náměstí",
+                                "description": "Pítko se nachází v horní části parku u dětského hřiště. Poblíž ulice Těšínská."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 25,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6009547243785, 49.1807384286048]
+                            },
+                            "properties": {
+                                "title": "Dvorského",
+                                "description": "Pítko v parku při ul. Dvorského, který je ve správě \r\nMČ Brno-střed. pítko bylo zřízeno při rekonstrukci parku v roce 2020."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 26,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6173233584321, 49.2177140946329]
+                            },
+                            "properties": {
+                                "title": "Pítko na Bieblově",
+                                "description": "Pítko se nachází na dětském hřišti na ulici Bieblova."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 27,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5976288640359, 49.1825308705436]
+                            },
+                            "properties": {
+                                "title": "Pítko ve vnitrobloku při ulici Vojtova",
+                                "description": "Pítko se nachází uprostřed areálu městských bytů na ulici Vojtova."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 28,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6267012722613, 49.2231018580794]
+                            },
+                            "properties": {
+                                "title": "PARO - Poliklinika Lesná",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 29,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5890681186226, 49.2276181132732]
+                            },
+                            "properties": {
+                                "title": "PARO - Hlaváčkova",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 30,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5551543136537, 49.2076470012074]
+                            },
+                            "properties": {
+                                "title": "PARO - Veslařská",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 31,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6213247627594, 49.2087622968525]
+                            },
+                            "properties": {
+                                "title": "PARO - Volejníkova",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 32,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5713525884316, 49.2433721684209]
+                            },
+                            "properties": {
+                                "title": "PARO - Medlánky",
+                                "description": "Plánováno"
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 33,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5875415395951, 49.2062190793546]
+                            },
+                            "properties": {
+                                "title": "PARO - Kraví hora",
+                                "description": "Plánováno"
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 34,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6392512434303, 49.2245156459821]
+                            },
+                            "properties": {
+                                "title": "PARO - Cacovický ostrov",
+                                "description": "Plánováno"
+                            }
+                        }]
                 }
-            }, { "type": "Feature", "id": 2, "geometry": { "type": "Point", "coordinates": [16.60779246, 49.20762662] }, "properties": { "OBJECTID": 2, "TITLE": "Park Lužánky - směr ulice Pionýrská", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3dYaOEgNxk0lGiZTpbjp6Bpit8NgB1t-h-4WzHOYjezKIfsQ-2OaXiOkSv512LkUSfvLMq4TC0jEICBfIZIozzsBJg_cmadjD1Ef4doDI2JGUxtyexLAZ07Tev1nBFPbXrosu7Y-8mB-mC76atxasaA=w528-h937-no?authuser=0", "GlobalID": "b2fd267d-13b1-488c-81ee-39f037560296", "PARO": null } }, { "type": "Feature", "id": 3, "geometry": { "type": "Point", "coordinates": [16.60861891, 49.20699278] }, "properties": { "OBJECTID": 3, "TITLE": "Park Lužánky - střed", "DESCRIPTION": "Centrální pítko v Lužánkách s prodlouženým kohoutkem umožňuje to nejpohodlnější naplnění vaší lahve vodou.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fxQYmMFSmPbBzBMvlugjy_ZANw4cA9YjiNNGuYL2u_AO8C-icRLsbit6Nvb2w3fHlVzsN2TWUN2G7S_t2t9NrOOjaCY1cMo8DCNBpCDAG6jbLq7kgLfMCakTKV3sJ19sw5Ao8y4qVkuLlPYfm5HPt8=w528-h937-no?authuser=0", "GlobalID": "6161208e-4115-48fb-87ed-7ea7e5980ff7", "PARO": null } }, { "type": "Feature", "id": 4, "geometry": { "type": "Point", "coordinates": [16.60917587, 49.20606547] }, "properties": { "OBJECTID": 4, "TITLE": "Park Lužánky - směr ulice Lužánecká", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fQ7b14LGSvH35AymxSOrRcEABnTQQq99Ms1isJ8OwF1s3a4dyxuRdjD13gB2Ciy-6khB52XZ2fCDyr_fUAKjbHCJutWIG_flKaIvxvYn9k4Xd72DHvR2J7RzHV9bxCyoSSRu5OFQ5OfjUyyHIaZ8Pa=w528-h937-no?authuser=0", "GlobalID": "3a212519-fd58-436f-bfe3-f61a2019269c", "PARO": null } }]
-        };
-
-
-        var geojsonData2 = { "type": "FeatureCollection", "features": [
-        {
-            "type": "Feature",
-            "id": 1,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5944884120115, 49.2240215265896]
             },
-            "properties": {
-                "title": "Ulice husitská",
-                "description": "Pítko je situované na rušné Husitské ulici a to v pruhu mezi komunikacemi, přímo na trase přechodů v těsné blízkosti Palackého třídy."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 2,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6077924613693, 49.2076266174456]
-            },
-            "properties": {
-                "title": "Park Lužánky - směr ulice Pionýrská",
-                "description": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 3,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6086189114307, 49.2069927752143]
-            },
-            "properties": {
-                "title": "Park Lužánky - střed",
-                "description": "Centrální pítko v Lužánkách s prodlouženým kohoutkem umožňuje to nejpohodlnější naplnění vaší lahve vodou."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 4,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6091758669069, 49.2060654728664]
-            },
-            "properties": {
-                "title": "Park Lužánky - směr ulice Lužánecká",
-                "description": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 5,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6130026900172, 49.2028843415203]
-            },
-            "properties": {
-                "title": "Náměstí 28. října",
-                "description": "Nově vzniklé pítko v rámci projektu Studenského Brna leží mezi dětským hřištěm a kvádrem památníku obětem holokaustu."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 6,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6023307044419, 49.202549782604]
-            },
-            "properties": {
-                "title": "Tyršův sad",
-                "description": "V rámci dětského hřiště v Tyršově sadu můžete využít zdejší litinové pítko se žlutou odkapávací &quot;miskou,&quot; vhodnou i pro pití čtyřnohých domácích mazlíčků"
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 7,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6107658849598, 49.1990044929148]
-            },
-            "properties": {
-                "title": "Park Koliště III - Janáčkovo divadlo",
-                "description": "Před Janáčkovým divadlem teď můžete narazit na mnoho vodních prvků, ovšem za pitnou vodou se vydejte do parku  přímo za sochou Leoše Janáčka směrem k ulici Koliště. Tam najdete pískovcový kvádr, který slouží jako přívod pitné vody."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 8,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6064090558318, 49.1989751434296]
-            },
-            "properties": {
-                "title": "Park Moravské náměstí",
-                "description": "V centru parku na Moravském náměstí se můžete zastavit u příjemného pítka a napustit si například vodu do lahve na další cestu."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 9,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5969947116542, 49.1994623426295]
-            },
-            "properties": {
-                "title": "Park Obilní trh",
-                "description": "V parku Obilní trh najdete pítko v rohu parku u dětského hřiště ležícího u ulice Gorkého."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 10,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5827474312481, 49.2030839019014]
-            },
-            "properties": {
-                "title": "Park Kraví hora",
-                "description": "Park na Kraví hoře má své pítko přímo u přístřešku pro turisty situovaného u jezírka."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 11,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.603965638259, 49.1965038542999]
-            },
-            "properties": {
-                "title": "Komenského náměstí",
-                "description": "Nově vzniklé pítko v rámci projektu Studenstkého Brna se nachází v malém parčíku před budovou JAMU na straně blíže k Solniční ulici."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 12,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.60577125198, 49.1965742965548]
-            },
-            "properties": {
-                "title": "Česká (před Avionem)",
-                "description": "Umělecky ztvárněné pítko se zobrazením zvířat najdete na ulici Česká před Avionem. Ačkoliv se může zdát, že se jedná pouze o fontánu, není to pravda. Voda zde je pitná a co víc, spodní část tohoto fontánového pítka je určena pro psy, takže na své si přijdou i vaši čtyřnozí kamarádi."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 13,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6092207826711, 49.1966036474647]
-            },
-            "properties": {
-                "title": "Jakubské náměstí",
-                "description": "Za kostelem Svatého Jakuba, je v letních měsících jedno z nejživějších náměstí v Brně, ač malinké náměstí přitahuje mnoha lákadly, kromě vyhlášeného výčepu a cukrárny zde můžete najít Zlatou studnu, tedy pítko ve tvaru obráceného kužele."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 14,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6074600847142, 49.1952417468992]
-            },
-            "properties": {
-                "title": "Náměstí Svobody",
-                "description": "Pítko na náměstí Svobody, které najdete v rohu náměstí u ústí ulice Česká, doplňují verše Jana Skácela a designově působí jako malý bráška velké Skácelovy kašny na druhé straně náměstí. Ovšem pokud potřebujete doplnit vodu do své lahve, pohodlně si ji spíše doplníte u jiného typu pítka ležící v blízkosti tohoto. Ideální je pítko v parném dni, jako záchytný bod pro doplnění tekutin."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 15,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6129757405587, 49.1952182655261]
-            },
-            "properties": {
-                "title": "Malinovského náměstí",
-                "description": "Na Malinovského náměstí najdete nerezové pítko s tlačeným ventilem jen pár kroků od pocty Edisonovi, tedy od žárovek. Je to ideální příležitost doplnit tekutiny při cestě městem, pokud však hledáte místo pro doplnění vody do své lahve, nebude toto pítko to pravé."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 16,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6116462339382, 49.1926235051336]
-            },
-            "properties": {
-                "title": "Františkánské náměstí",
-                "description": "Františkánské náměstí je trochu opomíjeným místem Brněnského centra, důvodem k zastavení může být právě zdejší pítko, které představuje jen nepatrou zacházku z ulice Minoritská. Takže pokud hledáte klid od shonu a proudění hlavních ulic, tohle to správné místo kde si můžete pohodlně naplnit i lahev."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 17,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6093465468108, 49.1924826092707]
-            },
-            "properties": {
-                "title": "Zelný trh",
-                "description": "Na zelném trhu můžete nalézt pítko v dolní části prostranství před hotelem Grandezza. Jedná se o pískovcové koryto s elegantním přívodem vody, taktéž zakomponovaného do pískovce."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 18,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6060856623295, 49.1907272480037]
-            },
-            "properties": {
-                "title": "Denisovy sady - směr ulice Nové sady",
-                "description": "Nerezové pítko kuželového tvaru. Voda vytéká z vrcholu kužele, pokud si chcete natočit vodu např. do láhve bude lepší využít pítko jiného typu. Pítko je skvělým osvěžením ve slunci vyprahlých Denisových sadech."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 19,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.605663454146, 49.1911323369013]
-            },
-            "properties": {
-                "title": "Denisovy sady - směr ulice Biskupská",
-                "description": "Nerezové pítko kuželového tvaru. Voda vytéká z vrcholu kužele, pokud si chcete natočit vodu např. do láhve bude lepší využít pítko jiného typu. Pítko je skvělým osvěžením ve slunci vyprahlých Denisových sadech."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 20,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6046932736391, 49.1915256809175]
-            },
-            "properties": {
-                "title": "Park Studánka",
-                "description": "Pítko se nachází uvnitř altánku a je otevřeno v období duben - říjen mezi 10:00-19:00 hod, mimo tuto dobu je zavřeno mřížemi."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 21,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5969767453485, 49.1874746748866]
-            },
-            "properties": {
-                "title": "Vnitroblok Křídlovická-Zahradnická",
-                "description": "V rámci zrekonstruovaného vnitrobloku se nachází pítko v těsné blízkosti dětského hřiště i grilovacího místa. Vnitroblok je otevřen od 6:00 do 22:00, mimo tuto dobu je uzamčen."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 22,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5964287730252, 49.1872867940949]
-            },
-            "properties": {
-                "title": "Vnitroblok Křídlovická-Zahradnická",
-                "description": "Toto pítko je v rámci vnitrobloku umístěno uvnitř oploceného výběhu pro velké psy. Výběh je otevřen od 5:00 do 24:00, mimo tuto dobu je uzamčen."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 23,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.607244489046, 49.1911558202139]
-            },
-            "properties": {
-                "title": "Petrov",
-                "description": "Zdejší pískovcové pítko spirálovitého tvaru se nachází před budovou Diecézního muzea Petrov."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 24,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5905448079142, 49.2230417402972]
-            },
-            "properties": {
-                "title": "Slovanské náměstí",
-                "description": "Pítko se nachází v horní části parku u dětského hřiště. Poblíž ulice Těšínská."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 25,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6009547243785, 49.1807384286048]
-            },
-            "properties": {
-                "title": "Dvorského",
-                "description": "Pítko v parku při ul. Dvorského, který je ve správě \r\nMČ Brno-střed. pítko bylo zřízeno při rekonstrukci parku v roce 2020."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 26,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6173233584321, 49.2177140946329]
-            },
-            "properties": {
-                "title": "Pítko na Bieblově",
-                "description": "Pítko se nachází na dětském hřišti na ulici Bieblova."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 27,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5976288640359, 49.1825308705436]
-            },
-            "properties": {
-                "title": "Pítko ve vnitrobloku při ulici Vojtova",
-                "description": "Pítko se nachází uprostřed areálu městských bytů na ulici Vojtova."
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 28,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6267012722613, 49.2231018580794]
-            },
-            "properties": {
-                "title": "PARO - Poliklinika Lesná",
-                "description": ""
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 29,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5890681186226, 49.2276181132732]
-            },
-            "properties": {
-                "title": "PARO - Hlaváčkova",
-                "description": ""
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 30,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5551543136537, 49.2076470012074]
-            },
-            "properties": {
-                "title": "PARO - Veslařská",
-                "description": ""
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 31,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6213247627594, 49.2087622968525]
-            },
-            "properties": {
-                "title": "PARO - Volejníkova",
-                "description": ""
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 32,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5713525884316, 49.2433721684209]
-            },
-            "properties": {
-                "title": "PARO - Medlánky",
-                "description": "Plánováno"
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 33,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.5875415395951, 49.2062190793546]
-            },
-            "properties": {
-                "title": "PARO - Kraví hora",
-                "description": "Plánováno"
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 34,
-            "geometry": {
-                "type": "Point",
-                "coordinates": [16.6392512434303, 49.2245156459821]
-            },
-            "properties": {
-                "title": "PARO - Cacovický ostrov",
-                "description": "Plánováno"
-            }
-        }]};
+            { "id": 2, "name": "Druha challenge", "data": { "type": "FeatureCollection", "features": [{ "type": "Feature", "id": 1, "geometry": { "type": "Point", "coordinates": [16.600348599908, 49.1893389002701] }, "properties": { "FID": 1, "NAZEV": "Baltazar charitní obchod Hybešova", "Y": 49.1893389, "X": 16.6003486, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 2, "geometry": { "type": "Point", "coordinates": [16.5848477996863, 49.2210058002775] }, "properties": { "FID": 2, "NAZEV": "Baltazar charitní obchod Purkyňova", "Y": 49.2210058, "X": 16.5848478, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 3, "geometry": { "type": "Point", "coordinates": [16.6063000002449, 49.2032324995802] }, "properties": { "FID": 3, "NAZEV": "Baltazar charitní obchod Cihlářská", "Y": 49.2032325, "X": 16.6063, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 4, "geometry": { "type": "Point", "coordinates": [16.6154603003527, 49.185636100026] }, "properties": { "FID": 4, "NAZEV": "Baltazar charitní obchod Zvonařka", "Y": 49.1856361, "X": 16.6154603, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 5, "geometry": { "type": "Point", "coordinates": [16.6027399997512, 49.1911200003877] }, "properties": { "FID": 5, "NAZEV": "Bazar - vetešnictví u sedmi švábů", "Y": 49.19112, "X": 16.60274, "KONTAKT": "https://bazar-vetesnictvi-u-sedmi-svabu.business.site/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 6, "geometry": { "type": "Point", "coordinates": [16.5964799997523, 49.2233900001485] }, "properties": { "FID": 6, "NAZEV": "Bazar Antique", "Y": 49.22339, "X": 16.59648, "KONTAKT": "http://www.bazar-brno-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 7, "geometry": { "type": "Point", "coordinates": [16.6234899997637, 49.1914100002713] }, "properties": { "FID": 7, "NAZEV": "Bazar ve dvoře - nábytek, starožitnosti", "Y": 49.19141, "X": 16.62349, "KONTAKT": "https://bazarkrenova.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 8, "geometry": { "type": "Point", "coordinates": [16.6078099997317, 49.1884300004442] }, "properties": { "FID": 8, "NAZEV": "Botárna oblekárna", "Y": 49.18843, "X": 16.60781, "KONTAKT": "http://botarna-oblekarna.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 9, "geometry": { "type": "Point", "coordinates": [16.5984899998137, 49.2012000002799] }, "properties": { "FID": 9, "NAZEV": "Eurotech Trade - prodej použitých počítačů", "Y": 49.2012, "X": 16.59849, "KONTAKT": "https://www.eurotech.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 10, "geometry": { "type": "Point", "coordinates": [16.6022899996838, 49.2010499996578] }, "properties": { "FID": 10, "NAZEV": "Fotobazar Kounicova", "Y": 49.20105, "X": 16.60229, "KONTAKT": "http://www.afoto.cz/obchod/Fotobazar-Kounicova-31--Brno", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 11, "geometry": { "type": "Point", "coordinates": [16.6275699999556, 49.1555599999941] }, "properties": { "FID": 11, "NAZEV": "IKEA Circular hub", "Y": 49.15556, "X": 16.62757, "KONTAKT": "https://www.ikea.com/cz/cs/stores/brno/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 12, "geometry": { "type": "Point", "coordinates": [16.5953000001949, 49.2239400003308] }, "properties": { "FID": 12, "NAZEV": "Královopolský bazar nábytku", "Y": 49.22394, "X": 16.5953, "KONTAKT": "http://bazar-nabytku-brno.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 13, "geometry": { "type": "Point", "coordinates": [16.595980000077, 49.22140000011] }, "properties": { "FID": 13, "NAZEV": "Nadační obchod Veronica Palackého třída", "Y": 49.2214, "X": 16.59598, "KONTAKT": "https://nadace.veronica.cz/page/nadacni-obchody/oteviraci-doba-a-kontakty.php", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 14, "geometry": { "type": "Point", "coordinates": [16.6008200002429, 49.1919799995774] }, "properties": { "FID": 14, "NAZEV": "Nadační obchod Veronica Pekařská", "Y": 49.19198, "X": 16.60082, "KONTAKT": "https://nadace.veronica.cz/page/nadacni-obchody/oteviraci-doba-a-kontakty.php", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 15, "geometry": { "type": "Point", "coordinates": [16.622560000044, 49.2060099999616] }, "properties": { "FID": 15, "NAZEV": "Nóbl Bazar", "Y": 49.20601, "X": 16.62256, "KONTAKT": "https://www.zivefirmy.cz/grycova-marie_f1135562", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 16, "geometry": { "type": "Point", "coordinates": [16.6166000003898, 49.198680000082] }, "properties": { "FID": 16, "NAZEV": "Rosomák a syn - PC bazar, likvidace elektroodpadu", "Y": 49.19868, "X": 16.6166, "KONTAKT": "http://www.vykupelektra.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 17, "geometry": { "type": "Point", "coordinates": [16.6048899999736, 49.2019499997927] }, "properties": { "FID": 17, "NAZEV": "Sport bazar", "Y": 49.20195, "X": 16.60489, "KONTAKT": "http://www.sportbazar.net/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 18, "geometry": { "type": "Point", "coordinates": [16.6063400002909, 49.2029099999966] }, "properties": { "FID": 18, "NAZEV": "Šuplig", "Y": 49.20291, "X": 16.60634, "KONTAKT": "https://llp.cz/suplig/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 19, "geometry": { "type": "Point", "coordinates": [16.6009800004267, 49.1896900000935] }, "properties": { "FID": 19, "NAZEV": "Zlevněnka Hybešova", "Y": 49.18969, "X": 16.60098, "KONTAKT": "https://www.zlevnenka.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 20, "geometry": { "type": "Point", "coordinates": [16.600640000036, 49.2145400003208] }, "properties": { "FID": 20, "NAZEV": "Zlevněnka Štefánikova", "Y": 49.21454, "X": 16.60064, "KONTAKT": "https://www.zlevnenka.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 21, "geometry": { "type": "Point", "coordinates": [16.6244699999905, 49.1914300002943] }, "properties": { "FID": 21, "NAZEV": "Zlevněnka Křenová", "Y": 49.19143, "X": 16.62447, "KONTAKT": "https://www.zlevnenka.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 185, "geometry": { "type": "Point", "coordinates": [16.6278999998851, 49.1562500003373] }, "properties": { "FID": 185, "NAZEV": "IKEA - druhý život nábytku", "Y": 49.15625, "X": 16.6279, "KONTAKT": "https://www.druhyzivotnabytku.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 186, "geometry": { "type": "Point", "coordinates": [16.6276900000935, 49.2044400004057] }, "properties": { "FID": 186, "NAZEV": "RE-USE point  ul. Jana Svobody", "Y": 49.20444, "X": 16.62769, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 187, "geometry": { "type": "Point", "coordinates": [16.6279399999311, 49.2363099997067] }, "properties": { "FID": 187, "NAZEV": "RE-USE point ul. Dusíkova", "Y": 49.23631, "X": 16.62794, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 188, "geometry": { "type": "Point", "coordinates": [16.589118900417, 49.2505796999932] }, "properties": { "FID": 188, "NAZEV": "RE-USE point ul. Hapalova", "Y": 49.2505797, "X": 16.5891189, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 189, "geometry": { "type": "Point", "coordinates": [16.621040000096, 49.222920000058] }, "properties": { "FID": 189, "NAZEV": "RE-USE point ul. Okružní", "Y": 49.22292, "X": 16.62104, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 190, "geometry": { "type": "Point", "coordinates": [16.5867400002509, 49.1710599998192] }, "properties": { "FID": 190, "NAZEV": "RE-USE point ul. Ukrajinská", "Y": 49.17106, "X": 16.58674, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 191, "geometry": { "type": "Point", "coordinates": [16.5901900001684, 49.2094399998562] }, "properties": { "FID": 191, "NAZEV": "RE-USE point ul. Veveří", "Y": 49.20944, "X": 16.59019, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 192, "geometry": { "type": "Point", "coordinates": [16.563640599634, 49.2128791998153] }, "properties": { "FID": 192, "NAZEV": "RE-USE point ul. Sochorova", "Y": 49.2128792, "X": 16.5636406, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 193, "geometry": { "type": "Point", "coordinates": [16.6122199998532, 49.2006500000975] }, "properties": { "FID": 193, "NAZEV": "Retro recycle shop", "Y": 49.20065, "X": 16.61222, "KONTAKT": "https://www.facebook.com/RetroRecycleShop/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 194, "geometry": { "type": "Point", "coordinates": [16.6199289002985, 49.2010589002481] }, "properties": { "FID": 194, "NAZEV": "Retro-Use ul. Francouzská", "Y": 49.2010589, "X": 16.6199289, "KONTAKT": "https://www.retro-use.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 195, "geometry": { "type": "Point", "coordinates": [16.6044153000261, 49.1939996997264] }, "properties": { "FID": 195, "NAZEV": "Retro-Use ul. Husova", "Y": 49.1939997, "X": 16.6044153, "KONTAKT": "https://www.retro-use.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 196, "geometry": { "type": "Point", "coordinates": [16.6109052998398, 49.1931789001861] }, "properties": { "FID": 196, "NAZEV": "Retro-Use ul. Orlí", "Y": 49.1931789, "X": 16.6109053, "KONTAKT": "https://www.retro-use.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }] } },
+        @* { "id": 3, "name": "Treti challenge", "data": },
+            { "id": 4, "name": "Treti challenge", "data": },
+            { "id": 5, "name": "Treti challenge", "data": },
+            { "id": 6, "name": "Treti challenge", "data": } *@
+        ]
 
 
         //geojsonData2 = geoJsonFeatures2; //TODO - nevím jak sem dostat ten obsah geoJsonFeatures2 - když vypíšu obsah do konzole a to vložím sem nahoru přímo do proměnné, funguje to...
@@ -537,45 +526,36 @@
         }).addTo(map);
 
         // Function to update feature information above the map
-        function updateFeatureInfo(feature) {
-            var infoElement = document.getElementById('feature-info');
-            infoElement.innerHTML = '<strong>' + feature.properties.TITLE + '</strong><br>' + feature.properties.DESCRIPTION;
-        }
 
-        function updateChallengeInfo(challenge) {
+
+        @* function updateChallengeInfo(challenge) {
             var infoElement = document.getElementById('challenge');
             infoElement.innerHTML = '<strong>' + challenge.name;
-        }
+            } *@
 
-        function updateComments(comments) {
-            const commentsList = document.getElementById('commentsList');
-            commentsList.innerHTML = '';
-            comments.forEach(comment => {
-                const li = document.createElement('li');
-                li.textContent = comment.text;
-                commentsList.appendChild(li);
-            });
-        }
 
-        // Function to get the current week number of the year
-        function getWeekNumber(d) {
-            // Copy date to avoid modifying original
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            // Set to nearest Thursday: current date + 4 - current day number
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-            // Get first day of year
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-            // Calculate full weeks to nearest Thursday
-            var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return weekNo;
-        }
+
+            // Function to get the current week number of the year
+            function getWeekNumber(d) {
+                // Copy date to avoid modifying original
+                d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+                // Set to nearest Thursday: current date + 4 - current day number
+                d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+                // Get first day of year
+                var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+                // Calculate full weeks to nearest Thursday
+                var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+                return weekNo;
+            }
 
         // Get the current date
         const currentDate = new Date();
         const weekNumber = getWeekNumber(currentDate);
 
         // Calculate the index using modulo 6
-        const challengeIndex = weekNumber % 6;
+        //const challengeIndex = weekNumber % 6;
+
+        const challengeIndex = 1;
 
         // Select the challenge
         const selectedChallenge = challenges[challengeIndex];
@@ -586,29 +566,25 @@
             <h2>${selectedChallenge.name}</h2>
         `;
 
-        // Function to handle form submission for adding new comment
-        document.getElementById('commentForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const newComment = document.getElementById('newComment').value;
-            const placeId = 1; // Example: replace with actual place id logic if needed
-
-            // Assuming you directly update the comments array in the GeoJSON
-            geojsonData.features[0].properties.COMMENTS.push({ text: newComment });
-
-            // Update comments list in UI
-            updateComments(geojsonData.features[0].properties.COMMENTS);
-
-            // Clear textarea
-            document.getElementById('newComment').value = '';
-        });
+        function updateFeatureInfo(feature, challengeIndex) {
+            var infoElement = document.getElementById('feature-info');
+            var current = challenges[challengeIndex]
+            if (current.id === 1) {
+                infoElement.innerHTML = '<strong>' + feature.properties.title + '</strong><br>' + feature.properties.description;
+            }
+            if (current.id === 2 || current.id === 3 || current.id === 4) {
+                infoElement.innerHTML = '<strong>' + feature.properties.NAZEV + '</strong><br>' + feature.properties.KONTAKT;
+            }
+        }
 
         // Add GeoJSON layer with click event handling
-        L.geoJSON(geojsonData2, {
+        L.geoJSON(selectedChallenge.data, {
             onEachFeature: function (feature, layer) {
                 // Bind click event
                 layer.on('click', function (e) {
-                    updateFeatureInfo(feature);
-                    updateComments(feature.properties.COMMENTS);
+                    updateFeatureInfo(feature, challengeIndex);
+                    //updateComments(feature.properties.COMMENTS);
+
                 });
             }
         }).addTo(map);
@@ -642,11 +618,3 @@
         </tbody>
     </table>
 </div>
-
-
-<style>
-    .filter-button.active {
-        background-color: #4CAF50;
-        color: white;
-    }
-</style>

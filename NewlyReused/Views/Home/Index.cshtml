@@ -22,7 +22,7 @@
             background-color: white;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid#ccc;
             border-radius: 5px;
         }
     </style>
@@ -30,46 +30,451 @@
 
 <body>
     <div class="container">
-    <div class="text-center">
-        <h1 class="display-4">Spots</h1>
-        <p class="lead">Here you can find a list of all available spots to fulfill the challenge for this week:</p>
+        <div class="text-center">
+            <h1 class="display-4">Spots</h1>
+            <p class="lead">Here you can find a list of all available spots to fulfill the challenge for this week:</p>
+        </div>
+        <div class="text-center">
+            <a href="/Home/List">View Places</a>
+        </div>
     </div>
-    <div class="text-center">
-        <a href="/Places/Index" class="btn-primary">View Stops</a>
-    </div>
-</div>
-    <h2 id="challenge"></h2>
+    <div id="challenge"></div>
     <div id="feature-info"></div>
     <div id="map"></div>
 
-    <div id="commentsContainer">
-        <h3>Comments</h3>
-        <ul id="commentsList"></ul>
-        <form id="commentForm">
-            <textarea id="newComment" placeholder="Add a new comment"></textarea>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+
 
     <!-- Include Leaflet library -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
-        // Sample GeoJSON data with points
-        var challenges = [{ "id": 1, "name": "Prvni challenge" }, { "id": 2, "name": "Druha challenge" }, { "id": 3, "name": "Treti challenge" }, { "id": 4, "name": "Treti challenge" }, { "id": 5, "name": "Treti challenge" }, { "id": 6, "name": "Treti challenge" }]
 
-
-        var geojsonData = {
-            "type": "FeatureCollection",
-            "features": [{
-                "type": "Feature", "id": 1, "geometry": { "type": "Point", "coordinates": [16.59448841, 49.22402153] }, "properties": {
-                    "OBJECTID": 1, "TITLE": "Ulice husitská", "DESCRIPTION": "Pítko je situované na rušné Husitské ulici a to v pruhu mezi komunikacemi, přímo na trase přechodů v těsné blízkosti Palackého třídy.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3c2NC_IS76U_EquLEZlleS9fbgXWdzP2eyAbs_s9Dj2sB-jGFGdJmHWe9Zi9nntmbtNbGvdMDaRkbhjEVtZ28KR9ws_vKn3TIDHq1jv8PukZz9xOLUMr5dYrqulkapFrdNeYrx0ZM8bRC2LGtHtOcFA=w528-h937-no?authuser=0", "GlobalID": "e4351f09-ad6d-44f3-ba58-7c445918c6f1", "PARO": null, "COMMENTS": [
-                        { "text": "Comment 1 for Place 1" },
-                        { "text": "Comment 2 for Place 1" }
-                    ]
+        // ten mega seznam, objekt challenge má id, nazev a data
+        var challenges = [
+            {
+                "id": 1, "name": "Prvni challenge", "data": {
+                    "type": "FeatureCollection", "features": [
+                        {
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5944884120115, 49.2240215265896]
+                            },
+                            "properties": {
+                                "title": "Ulice husitská",
+                                "description": "Pítko je situované na rušné Husitské ulici a to v pruhu mezi komunikacemi, přímo na trase přechodů v těsné blízkosti Palackého třídy."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6077924613693, 49.2076266174456]
+                            },
+                            "properties": {
+                                "title": "Park Lužánky - směr ulice Pionýrská",
+                                "description": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 3,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6086189114307, 49.2069927752143]
+                            },
+                            "properties": {
+                                "title": "Park Lužánky - střed",
+                                "description": "Centrální pítko v Lužánkách s prodlouženým kohoutkem umožňuje to nejpohodlnější naplnění vaší lahve vodou."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 4,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6091758669069, 49.2060654728664]
+                            },
+                            "properties": {
+                                "title": "Park Lužánky - směr ulice Lužánecká",
+                                "description": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 5,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6130026900172, 49.2028843415203]
+                            },
+                            "properties": {
+                                "title": "Náměstí 28. října",
+                                "description": "Nově vzniklé pítko v rámci projektu Studenského Brna leží mezi dětským hřištěm a kvádrem památníku obětem holokaustu."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 6,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6023307044419, 49.202549782604]
+                            },
+                            "properties": {
+                                "title": "Tyršův sad",
+                                "description": "V rámci dětského hřiště v Tyršově sadu můžete využít zdejší litinové pítko se žlutou odkapávací &quot;miskou,&quot; vhodnou i pro pití čtyřnohých domácích mazlíčků"
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 7,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6107658849598, 49.1990044929148]
+                            },
+                            "properties": {
+                                "title": "Park Koliště III - Janáčkovo divadlo",
+                                "description": "Před Janáčkovým divadlem teď můžete narazit na mnoho vodních prvků, ovšem za pitnou vodou se vydejte do parku  přímo za sochou Leoše Janáčka směrem k ulici Koliště. Tam najdete pískovcový kvádr, který slouží jako přívod pitné vody."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 8,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6064090558318, 49.1989751434296]
+                            },
+                            "properties": {
+                                "title": "Park Moravské náměstí",
+                                "description": "V centru parku na Moravském náměstí se můžete zastavit u příjemného pítka a napustit si například vodu do lahve na další cestu."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 9,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5969947116542, 49.1994623426295]
+                            },
+                            "properties": {
+                                "title": "Park Obilní trh",
+                                "description": "V parku Obilní trh najdete pítko v rohu parku u dětského hřiště ležícího u ulice Gorkého."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 10,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5827474312481, 49.2030839019014]
+                            },
+                            "properties": {
+                                "title": "Park Kraví hora",
+                                "description": "Park na Kraví hoře má své pítko přímo u přístřešku pro turisty situovaného u jezírka."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 11,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.603965638259, 49.1965038542999]
+                            },
+                            "properties": {
+                                "title": "Komenského náměstí",
+                                "description": "Nově vzniklé pítko v rámci projektu Studenstkého Brna se nachází v malém parčíku před budovou JAMU na straně blíže k Solniční ulici."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 12,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.60577125198, 49.1965742965548]
+                            },
+                            "properties": {
+                                "title": "Česká (před Avionem)",
+                                "description": "Umělecky ztvárněné pítko se zobrazením zvířat najdete na ulici Česká před Avionem. Ačkoliv se může zdát, že se jedná pouze o fontánu, není to pravda. Voda zde je pitná a co víc, spodní část tohoto fontánového pítka je určena pro psy, takže na své si přijdou i vaši čtyřnozí kamarádi."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 13,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6092207826711, 49.1966036474647]
+                            },
+                            "properties": {
+                                "title": "Jakubské náměstí",
+                                "description": "Za kostelem Svatého Jakuba, je v letních měsících jedno z nejživějších náměstí v Brně, ač malinké náměstí přitahuje mnoha lákadly, kromě vyhlášeného výčepu a cukrárny zde můžete najít Zlatou studnu, tedy pítko ve tvaru obráceného kužele."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 14,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6074600847142, 49.1952417468992]
+                            },
+                            "properties": {
+                                "title": "Náměstí Svobody",
+                                "description": "Pítko na náměstí Svobody, které najdete v rohu náměstí u ústí ulice Česká, doplňují verše Jana Skácela a designově působí jako malý bráška velké Skácelovy kašny na druhé straně náměstí. Ovšem pokud potřebujete doplnit vodu do své lahve, pohodlně si ji spíše doplníte u jiného typu pítka ležící v blízkosti tohoto. Ideální je pítko v parném dni, jako záchytný bod pro doplnění tekutin."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 15,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6129757405587, 49.1952182655261]
+                            },
+                            "properties": {
+                                "title": "Malinovského náměstí",
+                                "description": "Na Malinovského náměstí najdete nerezové pítko s tlačeným ventilem jen pár kroků od pocty Edisonovi, tedy od žárovek. Je to ideální příležitost doplnit tekutiny při cestě městem, pokud však hledáte místo pro doplnění vody do své lahve, nebude toto pítko to pravé."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 16,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6116462339382, 49.1926235051336]
+                            },
+                            "properties": {
+                                "title": "Františkánské náměstí",
+                                "description": "Františkánské náměstí je trochu opomíjeným místem Brněnského centra, důvodem k zastavení může být právě zdejší pítko, které představuje jen nepatrou zacházku z ulice Minoritská. Takže pokud hledáte klid od shonu a proudění hlavních ulic, tohle to správné místo kde si můžete pohodlně naplnit i lahev."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 17,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6093465468108, 49.1924826092707]
+                            },
+                            "properties": {
+                                "title": "Zelný trh",
+                                "description": "Na zelném trhu můžete nalézt pítko v dolní části prostranství před hotelem Grandezza. Jedná se o pískovcové koryto s elegantním přívodem vody, taktéž zakomponovaného do pískovce."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 18,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6060856623295, 49.1907272480037]
+                            },
+                            "properties": {
+                                "title": "Denisovy sady - směr ulice Nové sady",
+                                "description": "Nerezové pítko kuželového tvaru. Voda vytéká z vrcholu kužele, pokud si chcete natočit vodu např. do láhve bude lepší využít pítko jiného typu. Pítko je skvělým osvěžením ve slunci vyprahlých Denisových sadech."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 19,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.605663454146, 49.1911323369013]
+                            },
+                            "properties": {
+                                "title": "Denisovy sady - směr ulice Biskupská",
+                                "description": "Nerezové pítko kuželového tvaru. Voda vytéká z vrcholu kužele, pokud si chcete natočit vodu např. do láhve bude lepší využít pítko jiného typu. Pítko je skvělým osvěžením ve slunci vyprahlých Denisových sadech."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 20,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6046932736391, 49.1915256809175]
+                            },
+                            "properties": {
+                                "title": "Park Studánka",
+                                "description": "Pítko se nachází uvnitř altánku a je otevřeno v období duben - říjen mezi 10:00-19:00 hod, mimo tuto dobu je zavřeno mřížemi."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 21,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5969767453485, 49.1874746748866]
+                            },
+                            "properties": {
+                                "title": "Vnitroblok Křídlovická-Zahradnická",
+                                "description": "V rámci zrekonstruovaného vnitrobloku se nachází pítko v těsné blízkosti dětského hřiště i grilovacího místa. Vnitroblok je otevřen od 6:00 do 22:00, mimo tuto dobu je uzamčen."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 22,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5964287730252, 49.1872867940949]
+                            },
+                            "properties": {
+                                "title": "Vnitroblok Křídlovická-Zahradnická",
+                                "description": "Toto pítko je v rámci vnitrobloku umístěno uvnitř oploceného výběhu pro velké psy. Výběh je otevřen od 5:00 do 24:00, mimo tuto dobu je uzamčen."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 23,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.607244489046, 49.1911558202139]
+                            },
+                            "properties": {
+                                "title": "Petrov",
+                                "description": "Zdejší pískovcové pítko spirálovitého tvaru se nachází před budovou Diecézního muzea Petrov."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 24,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5905448079142, 49.2230417402972]
+                            },
+                            "properties": {
+                                "title": "Slovanské náměstí",
+                                "description": "Pítko se nachází v horní části parku u dětského hřiště. Poblíž ulice Těšínská."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 25,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6009547243785, 49.1807384286048]
+                            },
+                            "properties": {
+                                "title": "Dvorského",
+                                "description": "Pítko v parku při ul. Dvorského, který je ve správě \r\nMČ Brno-střed. pítko bylo zřízeno při rekonstrukci parku v roce 2020."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 26,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6173233584321, 49.2177140946329]
+                            },
+                            "properties": {
+                                "title": "Pítko na Bieblově",
+                                "description": "Pítko se nachází na dětském hřišti na ulici Bieblova."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 27,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5976288640359, 49.1825308705436]
+                            },
+                            "properties": {
+                                "title": "Pítko ve vnitrobloku při ulici Vojtova",
+                                "description": "Pítko se nachází uprostřed areálu městských bytů na ulici Vojtova."
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 28,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6267012722613, 49.2231018580794]
+                            },
+                            "properties": {
+                                "title": "PARO - Poliklinika Lesná",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 29,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5890681186226, 49.2276181132732]
+                            },
+                            "properties": {
+                                "title": "PARO - Hlaváčkova",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 30,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5551543136537, 49.2076470012074]
+                            },
+                            "properties": {
+                                "title": "PARO - Veslařská",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 31,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6213247627594, 49.2087622968525]
+                            },
+                            "properties": {
+                                "title": "PARO - Volejníkova",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 32,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5713525884316, 49.2433721684209]
+                            },
+                            "properties": {
+                                "title": "PARO - Medlánky",
+                                "description": "Plánováno"
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 33,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.5875415395951, 49.2062190793546]
+                            },
+                            "properties": {
+                                "title": "PARO - Kraví hora",
+                                "description": "Plánováno"
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "id": 34,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [16.6392512434303, 49.2245156459821]
+                            },
+                            "properties": {
+                                "title": "PARO - Cacovický ostrov",
+                                "description": "Plánováno"
+                            }
+                        }]
                 }
-            }, { "type": "Feature", "id": 2, "geometry": { "type": "Point", "coordinates": [16.60779246, 49.20762662] }, "properties": { "OBJECTID": 2, "TITLE": "Park Lužánky - směr ulice Pionýrská", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3dYaOEgNxk0lGiZTpbjp6Bpit8NgB1t-h-4WzHOYjezKIfsQ-2OaXiOkSv512LkUSfvLMq4TC0jEICBfIZIozzsBJg_cmadjD1Ef4doDI2JGUxtyexLAZ07Tev1nBFPbXrosu7Y-8mB-mC76atxasaA=w528-h937-no?authuser=0", "GlobalID": "b2fd267d-13b1-488c-81ee-39f037560296", "PARO": null } }, { "type": "Feature", "id": 3, "geometry": { "type": "Point", "coordinates": [16.60861891, 49.20699278] }, "properties": { "OBJECTID": 3, "TITLE": "Park Lužánky - střed", "DESCRIPTION": "Centrální pítko v Lužánkách s prodlouženým kohoutkem umožňuje to nejpohodlnější naplnění vaší lahve vodou.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fxQYmMFSmPbBzBMvlugjy_ZANw4cA9YjiNNGuYL2u_AO8C-icRLsbit6Nvb2w3fHlVzsN2TWUN2G7S_t2t9NrOOjaCY1cMo8DCNBpCDAG6jbLq7kgLfMCakTKV3sJ19sw5Ao8y4qVkuLlPYfm5HPt8=w528-h937-no?authuser=0", "GlobalID": "6161208e-4115-48fb-87ed-7ea7e5980ff7", "PARO": null } }, { "type": "Feature", "id": 4, "geometry": { "type": "Point", "coordinates": [16.60917587, 49.20606547] }, "properties": { "OBJECTID": 4, "TITLE": "Park Lužánky - směr ulice Lužánecká", "DESCRIPTION": "Jedno z Lužáneckých litinových pítek umožňující nejen pití lidí, ale i domácích mazlíčků.", "IMAGE_URL": "https://lh3.googleusercontent.com/pw/ACtC-3fQ7b14LGSvH35AymxSOrRcEABnTQQq99Ms1isJ8OwF1s3a4dyxuRdjD13gB2Ciy-6khB52XZ2fCDyr_fUAKjbHCJutWIG_flKaIvxvYn9k4Xd72DHvR2J7RzHV9bxCyoSSRu5OFQ5OfjUyyHIaZ8Pa=w528-h937-no?authuser=0", "GlobalID": "3a212519-fd58-436f-bfe3-f61a2019269c", "PARO": null } }]
-        };
+            },
+            { "id": 2, "name": "bazary", "data": { "type": "FeatureCollection", "features": [{ "type": "Feature", "id": 1, "geometry": { "type": "Point", "coordinates": [16.600348599908, 49.1893389002701] }, "properties": { "FID": 1, "NAZEV": "Baltazar charitní obchod Hybešova", "Y": 49.1893389, "X": 16.6003486, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 2, "geometry": { "type": "Point", "coordinates": [16.5848477996863, 49.2210058002775] }, "properties": { "FID": 2, "NAZEV": "Baltazar charitní obchod Purkyňova", "Y": 49.2210058, "X": 16.5848478, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 3, "geometry": { "type": "Point", "coordinates": [16.6063000002449, 49.2032324995802] }, "properties": { "FID": 3, "NAZEV": "Baltazar charitní obchod Cihlářská", "Y": 49.2032325, "X": 16.6063, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 4, "geometry": { "type": "Point", "coordinates": [16.6154603003527, 49.185636100026] }, "properties": { "FID": 4, "NAZEV": "Baltazar charitní obchod Zvonařka", "Y": 49.1856361, "X": 16.6154603, "KONTAKT": "https://www.baltazar-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 5, "geometry": { "type": "Point", "coordinates": [16.6027399997512, 49.1911200003877] }, "properties": { "FID": 5, "NAZEV": "Bazar - vetešnictví u sedmi švábů", "Y": 49.19112, "X": 16.60274, "KONTAKT": "https://bazar-vetesnictvi-u-sedmi-svabu.business.site/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 6, "geometry": { "type": "Point", "coordinates": [16.5964799997523, 49.2233900001485] }, "properties": { "FID": 6, "NAZEV": "Bazar Antique", "Y": 49.22339, "X": 16.59648, "KONTAKT": "http://www.bazar-brno-bazar.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 7, "geometry": { "type": "Point", "coordinates": [16.6234899997637, 49.1914100002713] }, "properties": { "FID": 7, "NAZEV": "Bazar ve dvoře - nábytek, starožitnosti", "Y": 49.19141, "X": 16.62349, "KONTAKT": "https://bazarkrenova.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 8, "geometry": { "type": "Point", "coordinates": [16.6078099997317, 49.1884300004442] }, "properties": { "FID": 8, "NAZEV": "Botárna oblekárna", "Y": 49.18843, "X": 16.60781, "KONTAKT": "http://botarna-oblekarna.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 9, "geometry": { "type": "Point", "coordinates": [16.5984899998137, 49.2012000002799] }, "properties": { "FID": 9, "NAZEV": "Eurotech Trade - prodej použitých počítačů", "Y": 49.2012, "X": 16.59849, "KONTAKT": "https://www.eurotech.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 10, "geometry": { "type": "Point", "coordinates": [16.6022899996838, 49.2010499996578] }, "properties": { "FID": 10, "NAZEV": "Fotobazar Kounicova", "Y": 49.20105, "X": 16.60229, "KONTAKT": "http://www.afoto.cz/obchod/Fotobazar-Kounicova-31--Brno", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 11, "geometry": { "type": "Point", "coordinates": [16.6275699999556, 49.1555599999941] }, "properties": { "FID": 11, "NAZEV": "IKEA Circular hub", "Y": 49.15556, "X": 16.62757, "KONTAKT": "https://www.ikea.com/cz/cs/stores/brno/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 12, "geometry": { "type": "Point", "coordinates": [16.5953000001949, 49.2239400003308] }, "properties": { "FID": 12, "NAZEV": "Královopolský bazar nábytku", "Y": 49.22394, "X": 16.5953, "KONTAKT": "http://bazar-nabytku-brno.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 13, "geometry": { "type": "Point", "coordinates": [16.595980000077, 49.22140000011] }, "properties": { "FID": 13, "NAZEV": "Nadační obchod Veronica Palackého třída", "Y": 49.2214, "X": 16.59598, "KONTAKT": "https://nadace.veronica.cz/page/nadacni-obchody/oteviraci-doba-a-kontakty.php", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 14, "geometry": { "type": "Point", "coordinates": [16.6008200002429, 49.1919799995774] }, "properties": { "FID": 14, "NAZEV": "Nadační obchod Veronica Pekařská", "Y": 49.19198, "X": 16.60082, "KONTAKT": "https://nadace.veronica.cz/page/nadacni-obchody/oteviraci-doba-a-kontakty.php", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 15, "geometry": { "type": "Point", "coordinates": [16.622560000044, 49.2060099999616] }, "properties": { "FID": 15, "NAZEV": "Nóbl Bazar", "Y": 49.20601, "X": 16.62256, "KONTAKT": "https://www.zivefirmy.cz/grycova-marie_f1135562", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 16, "geometry": { "type": "Point", "coordinates": [16.6166000003898, 49.198680000082] }, "properties": { "FID": 16, "NAZEV": "Rosomák a syn - PC bazar, likvidace elektroodpadu", "Y": 49.19868, "X": 16.6166, "KONTAKT": "http://www.vykupelektra.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 17, "geometry": { "type": "Point", "coordinates": [16.6048899999736, 49.2019499997927] }, "properties": { "FID": 17, "NAZEV": "Sport bazar", "Y": 49.20195, "X": 16.60489, "KONTAKT": "http://www.sportbazar.net/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 18, "geometry": { "type": "Point", "coordinates": [16.6063400002909, 49.2029099999966] }, "properties": { "FID": 18, "NAZEV": "Šuplig", "Y": 49.20291, "X": 16.60634, "KONTAKT": "https://llp.cz/suplig/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 19, "geometry": { "type": "Point", "coordinates": [16.6009800004267, 49.1896900000935] }, "properties": { "FID": 19, "NAZEV": "Zlevněnka Hybešova", "Y": 49.18969, "X": 16.60098, "KONTAKT": "https://www.zlevnenka.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 20, "geometry": { "type": "Point", "coordinates": [16.600640000036, 49.2145400003208] }, "properties": { "FID": 20, "NAZEV": "Zlevněnka Štefánikova", "Y": 49.21454, "X": 16.60064, "KONTAKT": "https://www.zlevnenka.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 21, "geometry": { "type": "Point", "coordinates": [16.6244699999905, 49.1914300002943] }, "properties": { "FID": 21, "NAZEV": "Zlevněnka Křenová", "Y": 49.19143, "X": 16.62447, "KONTAKT": "https://www.zlevnenka.cz/", "SUBKATEGOR": "bazar", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 185, "geometry": { "type": "Point", "coordinates": [16.6278999998851, 49.1562500003373] }, "properties": { "FID": 185, "NAZEV": "IKEA - druhý život nábytku", "Y": 49.15625, "X": 16.6279, "KONTAKT": "https://www.druhyzivotnabytku.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 186, "geometry": { "type": "Point", "coordinates": [16.6276900000935, 49.2044400004057] }, "properties": { "FID": 186, "NAZEV": "RE-USE point  ul. Jana Svobody", "Y": 49.20444, "X": 16.62769, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 187, "geometry": { "type": "Point", "coordinates": [16.6279399999311, 49.2363099997067] }, "properties": { "FID": 187, "NAZEV": "RE-USE point ul. Dusíkova", "Y": 49.23631, "X": 16.62794, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 188, "geometry": { "type": "Point", "coordinates": [16.589118900417, 49.2505796999932] }, "properties": { "FID": 188, "NAZEV": "RE-USE point ul. Hapalova", "Y": 49.2505797, "X": 16.5891189, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 189, "geometry": { "type": "Point", "coordinates": [16.621040000096, 49.222920000058] }, "properties": { "FID": 189, "NAZEV": "RE-USE point ul. Okružní", "Y": 49.22292, "X": 16.62104, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 190, "geometry": { "type": "Point", "coordinates": [16.5867400002509, 49.1710599998192] }, "properties": { "FID": 190, "NAZEV": "RE-USE point ul. Ukrajinská", "Y": 49.17106, "X": 16.58674, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 191, "geometry": { "type": "Point", "coordinates": [16.5901900001684, 49.2094399998562] }, "properties": { "FID": 191, "NAZEV": "RE-USE point ul. Veveří", "Y": 49.20944, "X": 16.59019, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 192, "geometry": { "type": "Point", "coordinates": [16.563640599634, 49.2128791998153] }, "properties": { "FID": 192, "NAZEV": "RE-USE point ul. Sochorova", "Y": 49.2128792, "X": 16.5636406, "KONTAKT": "https://www.sako.cz/sberna-strediska-a-kontejnery/cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 193, "geometry": { "type": "Point", "coordinates": [16.6122199998532, 49.2006500000975] }, "properties": { "FID": 193, "NAZEV": "Retro recycle shop", "Y": 49.20065, "X": 16.61222, "KONTAKT": "https://www.facebook.com/RetroRecycleShop/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 194, "geometry": { "type": "Point", "coordinates": [16.6199289002985, 49.2010589002481] }, "properties": { "FID": 194, "NAZEV": "Retro-Use ul. Francouzská", "Y": 49.2010589, "X": 16.6199289, "KONTAKT": "https://www.retro-use.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 195, "geometry": { "type": "Point", "coordinates": [16.6044153000261, 49.1939996997264] }, "properties": { "FID": 195, "NAZEV": "Retro-Use ul. Husova", "Y": 49.1939997, "X": 16.6044153, "KONTAKT": "https://www.retro-use.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }, { "type": "Feature", "id": 196, "geometry": { "type": "Point", "coordinates": [16.6109052998398, 49.1931789001861] }, "properties": { "FID": 196, "NAZEV": "Retro-Use ul. Orlí", "Y": 49.1931789, "X": 16.6109053, "KONTAKT": "https://www.retro-use.cz/", "SUBKATEGOR": "re-use", "KATEGORIE": "Bazary a re-use centra" } }] } },
+            { "id": 3, "name": "bezobal", "data": { "type": "FeatureCollection", "features": [{ "type": "Feature", "id": 24, "geometry": { "type": "Point", "coordinates": [16.6116899996938, 49.1938100003313] }, "properties": { "FID": 24, "NAZEV": "Brána k dětem", "Y": 49.19381, "X": 16.61169, "KONTAKT": "https://branakezdravi.cz/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 25, "geometry": { "type": "Point", "coordinates": [16.6116899996938, 49.1938100003313] }, "properties": { "FID": 25, "NAZEV": "Brána ke zdraví", "Y": 49.19381, "X": 16.61169, "KONTAKT": "http://www.branakezdravi.cz/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 26, "geometry": { "type": "Point", "coordinates": [16.6042799997223, 49.2040500004072] }, "properties": { "FID": 26, "NAZEV": "Čočkův biojarmark", "Y": 49.20405, "X": 16.60428, "KONTAKT": "http://cockuvbiojarmark.org/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 27, "geometry": { "type": "Point", "coordinates": [16.6010000004497, 49.2102500003373] }, "properties": { "FID": 27, "NAZEV": "Haná s.r.o.", "Y": 49.21025, "X": 16.601, "KONTAKT": "https://www.cukr-ryze.com/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 28, "geometry": { "type": "Point", "coordinates": [16.6862600003988, 49.2086500002973] }, "properties": { "FID": 28, "NAZEV": "Na lontu", "Y": 49.20865, "X": 16.68626, "KONTAKT": "http://www.nalontu.cz/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 29, "geometry": { "type": "Point", "coordinates": [16.5934100002713, 49.1998900001234] }, "properties": { "FID": 29, "NAZEV": "Nasyp si", "Y": 49.19989, "X": 16.59341, "KONTAKT": "https://www.nasypsi.cz/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 30, "geometry": { "type": "Point", "coordinates": [16.6246300001744, 49.2122699999606] }, "properties": { "FID": 30, "NAZEV": "Nebalenka", "Y": 49.21227, "X": 16.62463, "KONTAKT": "https://www.facebook.com/nebalenkabrno/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 31, "geometry": { "type": "Point", "coordinates": [16.6005199998982, 49.2008900003732] }, "properties": { "FID": 31, "NAZEV": "NoSáček Smetanova", "Y": 49.20089, "X": 16.60052, "KONTAKT": "https://www.facebook.com/NOsacek/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 32, "geometry": { "type": "Point", "coordinates": [16.6127744004183, 49.2005371999319] }, "properties": { "FID": 32, "NAZEV": "NoSáček Milady Horákové", "Y": 49.2005372, "X": 16.6127744, "KONTAKT": "https://www.facebook.com/NOsacek/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 33, "geometry": { "type": "Point", "coordinates": [16.5185099996368, 49.2208000003198] }, "properties": { "FID": 33, "NAZEV": "Rossman - drogerie bez obalu", "Y": 49.2208, "X": 16.51851, "KONTAKT": "https://www.rossmann.cz/drogerie-bez-obalu", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 34, "geometry": { "type": "Point", "coordinates": [16.6586899997437, 49.2028099998817] }, "properties": { "FID": 34, "NAZEV": "Vážím si - Bezobalový obchůdek", "Y": 49.20281, "X": 16.65869, "KONTAKT": "https://m.facebook.com/vazim.si.brno/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 35, "geometry": { "type": "Point", "coordinates": [16.6076010998109, 49.2022094002437] }, "properties": { "FID": 35, "NAZEV": "Zdravý život", "Y": 49.2022094, "X": 16.6076011, "KONTAKT": "https://www.zzbrno.cz/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 36, "geometry": { "type": "Point", "coordinates": [16.5812000001799, 49.1699200003078] }, "properties": { "FID": 36, "NAZEV": "Zvaž to - bezobalový obchod Brno Bohunice", "Y": 49.16992, "X": 16.5812, "KONTAKT": "https://www.bezobalovyobchod.cz/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 37, "geometry": { "type": "Point", "coordinates": [16.6246289003035, 49.2122694001128] }, "properties": { "FID": 37, "NAZEV": "Zvaž to - bezobalový obchod Brno Černá pole", "Y": 49.2122694, "X": 16.6246289, "KONTAKT": "https://www.facebook.com/bezobalovyobchodbrno/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 38, "geometry": { "type": "Point", "coordinates": [16.6263599999141, 49.2250999998652] }, "properties": { "FID": 38, "NAZEV": "Zvaž to - bezobalový obchod Brno Lesná", "Y": 49.2251, "X": 16.62636, "KONTAKT": "https://www.facebook.com/bezobalovyobchodbrno/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 39, "geometry": { "type": "Point", "coordinates": [16.6041436004468, 49.2072481002197] }, "properties": { "FID": 39, "NAZEV": "Zero Wejst", "Y": 49.2072481, "X": 16.6041436, "KONTAKT": "https://www.zerowejst.cz/", "SUBKATEGOR": "bezobalový obchod", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 68, "geometry": { "type": "Point", "coordinates": [16.6079099998466, 49.1933800002868] }, "properties": { "FID": 68, "NAZEV": "GOCUP - Cafe Mitte", "Y": 49.19338, "X": 16.60791, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 69, "geometry": { "type": "Point", "coordinates": [16.6298757996285, 49.21955970032] }, "properties": { "FID": 69, "NAZEV": "GOCUP - Cafe Mitte Písečník", "Y": 49.2195597, "X": 16.6298758, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 70, "geometry": { "type": "Point", "coordinates": [16.6096900000935, 49.19240000006] }, "properties": { "FID": 70, "NAZEV": "GOCUP - Café Momenta", "Y": 49.1924, "X": 16.60969, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 71, "geometry": { "type": "Point", "coordinates": [16.6073799996873, 49.1950600004187] }, "properties": { "FID": 71, "NAZEV": "GOCUP - Cupcakekárna", "Y": 49.19506, "X": 16.60738, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 72, "geometry": { "type": "Point", "coordinates": [16.6061899996688, 49.189320000118] }, "properties": { "FID": 72, "NAZEV": "GOCUP - Pivní sady", "Y": 49.18932, "X": 16.60619, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 73, "geometry": { "type": "Point", "coordinates": [16.567040000096, 49.1759499995929] }, "properties": { "FID": 73, "NAZEV": "GOCUP - Spital Cafe Mitte", "Y": 49.17595, "X": 16.56704, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 74, "geometry": { "type": "Point", "coordinates": [16.6334300003942, 49.1873599996643] }, "properties": { "FID": 74, "NAZEV": "GOCUP - Vintage Coffee", "Y": 49.18736, "X": 16.63343, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 75, "geometry": { "type": "Point", "coordinates": [16.6156699997707, 49.1914500003173] }, "properties": { "FID": 75, "NAZEV": "GOCUP - Wake Up Wellness Hostel", "Y": 49.19145, "X": 16.61567, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 76, "geometry": { "type": "Point", "coordinates": [16.551463100142, 49.1771491996759] }, "properties": { "FID": 76, "NAZEV": "GOCUP - Coffee Trail Garden", "Y": 49.1771492, "X": 16.5514631, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 77, "geometry": { "type": "Point", "coordinates": [16.6385853001715, 49.1890682996624] }, "properties": { "FID": 77, "NAZEV": "GOCUP - DRING CAFFE", "Y": 49.1890683, "X": 16.6385853, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 78, "geometry": { "type": "Point", "coordinates": [16.594283300434, 49.1993989999639] }, "properties": { "FID": 78, "NAZEV": "GOCUP - Veroni coffee & chocolate", "Y": 49.199399, "X": 16.5942833, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 79, "geometry": { "type": "Point", "coordinates": [16.6070806000897, 49.2039414000756] }, "properties": { "FID": 79, "NAZEV": "GOCUP - Coffee Trail Lidická", "Y": 49.2039414, "X": 16.6070806, "KONTAKT": "https://www.gocup.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 80, "geometry": { "type": "Point", "coordinates": [16.6599300002694, 49.18460000009] }, "properties": { "FID": 80, "NAZEV": "NickNack", "Y": 49.1846, "X": 16.65993, "KONTAKT": "https://www.nicknack.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }, { "type": "Feature", "id": 81, "geometry": { "type": "Point", "coordinates": [16.6457700001854, 49.1951799996573] }, "properties": { "FID": 81, "NAZEV": "U vlásku", "Y": 49.19518, "X": 16.64577, "KONTAKT": "https://www.uvlasku.cz/", "SUBKATEGOR": "eko-obal", "KATEGORIE": "Bezobalové obchody" } }] } },
+            { "id": 4, "name": "opravny", "data": { "type": "FeatureCollection", "features": [{ "type": "Feature", "id": 142, "geometry": { "type": "Point", "coordinates": [16.5083800001369, 49.2150699995809] }, "properties": { "FID": 142, "NAZEV": "Opravy šicích strojů - František Sedlák", "Y": 49.21507, "X": 16.50838, "KONTAKT": "Není k dispozici", "SUBKATEGOR": "oprava šicích strojů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 143, "geometry": { "type": "Point", "coordinates": [16.5965599998441, 49.2120400001459] }, "properties": { "FID": 143, "NAZEV": "Vychodil Milan - Opravy A Prodej Šicích Strojů", "Y": 49.21204, "X": 16.59656, "KONTAKT": "Není k dispozici", "SUBKATEGOR": "oprava šicích strojů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 144, "geometry": { "type": "Point", "coordinates": [16.5946400003358, 49.1993799999871] }, "properties": { "FID": 144, "NAZEV": "Opravna Obuvi A Tašek Zemanová", "Y": 49.19938, "X": 16.59464, "KONTAKT": "Není k dispozici", "SUBKATEGOR": "opravna obuvi", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 145, "geometry": { "type": "Point", "coordinates": [16.5911500003723, 49.2237299996398] }, "properties": { "FID": 145, "NAZEV": "Opravna obuvi a tašek Zemanová Helena", "Y": 49.22373, "X": 16.59115, "KONTAKT": "http://kozenekabelkyseznam.webmium.com/kontakt", "SUBKATEGOR": "opravna obuvi", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 146, "geometry": { "type": "Point", "coordinates": [16.6246999998052, 49.2148999998352] }, "properties": { "FID": 146, "NAZEV": "Opravy obuvi Svoboda Petr", "Y": 49.2149, "X": 16.6247, "KONTAKT": "https://www.reklamacni-opravy-obuvi.cz/", "SUBKATEGOR": "opravna obuvi", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 147, "geometry": { "type": "Point", "coordinates": [16.6102299998147, 49.1933099997568] }, "properties": { "FID": 147, "NAZEV": "Rychloopravna obuvi - Galerie Orlí", "Y": 49.19331, "X": 16.61023, "KONTAKT": "https://www.rychlo-opravna-obuvi.cz/", "SUBKATEGOR": "opravna obuvi", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 148, "geometry": { "type": "Point", "coordinates": [16.6084899996138, 49.2169200003578] }, "properties": { "FID": 148, "NAZEV": "Výroba klíčů a razítek, opravy obuvi - Cimburkova", "Y": 49.21692, "X": 16.60849, "KONTAKT": "https://rychlosluzby.cz/", "SUBKATEGOR": "opravna obuvi", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 149, "geometry": { "type": "Point", "coordinates": [16.6278972002956, 49.2004130997848] }, "properties": { "FID": 149, "NAZEV": "Výroba klíčů a razítek, opravy obuvi - Tkalcovská", "Y": 49.2004131, "X": 16.6278972, "KONTAKT": "https://rychlosluzby.cz/", "SUBKATEGOR": "opravna obuvi", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 150, "geometry": { "type": "Point", "coordinates": [16.5975349998404, 49.1765932999409] }, "properties": { "FID": 150, "NAZEV": "Výroba klíčů a razítek, opravy obuvi - Vídeňská", "Y": 49.1765933, "X": 16.597535, "KONTAKT": "https://rychlosluzby.cz/", "SUBKATEGOR": "opravna obuvi", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 151, "geometry": { "type": "Point", "coordinates": [16.6061906004159, 49.1923596996405] }, "properties": { "FID": 151, "NAZEV": "Kožešnictví Red Fox- Karolína Čejková", "Y": 49.1923597, "X": 16.6061906, "KONTAKT": "https://www.zlatestranky.cz/profil/H778262", "SUBKATEGOR": "opravna oděvů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 152, "geometry": { "type": "Point", "coordinates": [16.5896300004242, 49.2248799996124] }, "properties": { "FID": 152, "NAZEV": "Opravna oděvů", "Y": 49.22488, "X": 16.58963, "KONTAKT": "https://www.opravna-odevu-brno.cz/", "SUBKATEGOR": "opravna oděvů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 153, "geometry": { "type": "Point", "coordinates": [16.6244900000136, 49.2148399997662] }, "properties": { "FID": 153, "NAZEV": "Opravna oděvů - úpravy a opravy oděvů Brno", "Y": 49.21484, "X": 16.62449, "KONTAKT": "http://www.upravy-opravy.cz/", "SUBKATEGOR": "opravna oděvů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 154, "geometry": { "type": "Point", "coordinates": [16.5950300003343, 49.2132900002334] }, "properties": { "FID": 154, "NAZEV": "Opravna Oděvů A Scelování", "Y": 49.21329, "X": 16.59503, "KONTAKT": "https://www.zlatestranky.cz/profil/H1065747", "SUBKATEGOR": "opravna oděvů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 197, "geometry": { "type": "Point", "coordinates": [16.6559700002154, 49.216812499897] }, "properties": { "FID": 197, "NAZEV": "Oprava a Renovace kůže", "Y": 49.2168125, "X": 16.65597, "KONTAKT": "https://oprava-a-renovace-kuze.business.site/", "SUBKATEGOR": "renovace koženého zboží", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 217, "geometry": { "type": "Point", "coordinates": [16.6213700000255, 49.1910499998577] }, "properties": { "FID": 217, "NAZEV": "AV i servis,s.r.o.", "Y": 49.19105, "X": 16.62137, "KONTAKT": "http://www.aviservis.cz/opravujeme/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 218, "geometry": { "type": "Point", "coordinates": [16.6049999996503, 49.1840200003228] }, "properties": { "FID": 218, "NAZEV": "BMK servis s.r.o.", "Y": 49.18402, "X": 16.605, "KONTAKT": "https://www.bmkservis.cz/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 219, "geometry": { "type": "Point", "coordinates": [16.6071699998956, 49.2015999998402] }, "properties": { "FID": 219, "NAZEV": "Hrdnivová Milada", "Y": 49.2016, "X": 16.60717, "KONTAKT": "Není k dispozici", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 220, "geometry": { "type": "Point", "coordinates": [16.6186899996438, 49.1922599998991] }, "properties": { "FID": 220, "NAZEV": "Chladservis - Servis spotřebičů", "Y": 49.19226, "X": 16.61869, "KONTAKT": "https://www.chladservis.cz/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 221, "geometry": { "type": "Point", "coordinates": [16.5912899996338, 49.2289999998501] }, "properties": { "FID": 221, "NAZEV": "Libor Vobořil - Opravy Praček", "Y": 49.229, "X": 16.59129, "KONTAKT": "Není k dispozici", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 222, "geometry": { "type": "Point", "coordinates": [16.6622100001914, 49.2013099999566] }, "properties": { "FID": 222, "NAZEV": "Opravy praček Brno, Milan Küfhaber", "Y": 49.20131, "X": 16.66221, "KONTAKT": "https://www.opravy-pracek-brno.cz/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 223, "geometry": { "type": "Point", "coordinates": [16.6213700000255, 49.1910499998577] }, "properties": { "FID": 223, "NAZEV": "PaP servis", "Y": 49.19105, "X": 16.62137, "KONTAKT": "http://www.pap-servis.cz/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 224, "geometry": { "type": "Point", "coordinates": [16.6221999996303, 49.2037900001085] }, "properties": { "FID": 224, "NAZEV": "Pavel Anderle - Servis spotřebičů Brno", "Y": 49.20379, "X": 16.6222, "KONTAKT": "https://www.opravy-pracek-mycek-brno.cz/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 225, "geometry": { "type": "Point", "coordinates": [16.6448399995664, 49.1994899996638] }, "properties": { "FID": 225, "NAZEV": "Perex spol. s r.o.", "Y": 49.19949, "X": 16.64484, "KONTAKT": "http://www.perex-servis.cz/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 226, "geometry": { "type": "Point", "coordinates": [16.5976400001859, 49.1884699995908] }, "properties": { "FID": 226, "NAZEV": "PERFEKT SERVIS", "Y": 49.18847, "X": 16.59764, "KONTAKT": "https://www.perfektservis.cz/", "SUBKATEGOR": "servis domacích spotřebičů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 227, "geometry": { "type": "Point", "coordinates": [16.5976400001859, 49.1998799996623] }, "properties": { "FID": 227, "NAZEV": "C.B.C. CZ spol. sr.o.", "Y": 49.19988, "X": 16.59764, "KONTAKT": "https://www.cbc-cz.cz/", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 228, "geometry": { "type": "Point", "coordinates": [16.6031400002109, 49.2091099999266] }, "properties": { "FID": 228, "NAZEV": "Elektro servis Dížka", "Y": 49.20911, "X": 16.60314, "KONTAKT": "https://www.servisy-24.cz/servis-793?katalog=drobne-elektro", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 229, "geometry": { "type": "Point", "coordinates": [16.6066900002434, 49.1889799997273] }, "properties": { "FID": 229, "NAZEV": "HVservis", "Y": 49.18898, "X": 16.60669, "KONTAKT": "https://www.hvshop.cz/", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 230, "geometry": { "type": "Point", "coordinates": [16.6322200003528, 49.188540000121] }, "properties": { "FID": 230, "NAZEV": "KNK servis", "Y": 49.18854, "X": 16.63222, "KONTAKT": "https://knk-servis.webnode.cz/", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 231, "geometry": { "type": "Point", "coordinates": [16.6206100000515, 49.2019699998157] }, "properties": { "FID": 231, "NAZEV": "Rtv Servis S.r.o.", "Y": 49.20197, "X": 16.62061, "KONTAKT": "https://www.rtvservis.cz/index.php/servis-a-opravy", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 232, "geometry": { "type": "Point", "coordinates": [16.5898000001699, 49.2333600003638] }, "properties": { "FID": 232, "NAZEV": "TELMONT BRNO", "Y": 49.23336, "X": 16.5898, "KONTAKT": "http://opravatvbrno.cz/", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 233, "geometry": { "type": "Point", "coordinates": [16.6037300004392, 49.2013000003948] }, "properties": { "FID": 233, "NAZEV": "VIDEO klinik, spol. s r.o.", "Y": 49.2013, "X": 16.60373, "KONTAKT": "http://www.videoklinik.cz/", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 234, "geometry": { "type": "Point", "coordinates": [16.6085699997058, 49.189300000095] }, "properties": { "FID": 234, "NAZEV": "Zákaznícke centrum Samsung", "Y": 49.1893, "X": 16.60857, "KONTAKT": "https://www.escsk.eu/servis/", "SUBKATEGOR": "servis elektroniky", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 235, "geometry": { "type": "Point", "coordinates": [16.5882299997148, 49.2040799999921] }, "properties": { "FID": 235, "NAZEV": "Janeko S.r.o.", "Y": 49.20408, "X": 16.58823, "KONTAKT": "http://www.janeko.cz/", "SUBKATEGOR": "servis hudebních nástrojů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 236, "geometry": { "type": "Point", "coordinates": [16.6146399999361, 49.1877800001469] }, "properties": { "FID": 236, "NAZEV": "iLoveServis Brno", "Y": 49.18778, "X": 16.61464, "KONTAKT": "https://www.iloveservis.cz/", "SUBKATEGOR": "servis mobilů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 237, "geometry": { "type": "Point", "coordinates": [16.6084875003979, 49.2169217000765] }, "properties": { "FID": 237, "NAZEV": "iLoveServis Brno", "Y": 49.2169217, "X": 16.6084875, "KONTAKT": "https://www.iloveservis.cz/", "SUBKATEGOR": "servis mobilů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 238, "geometry": { "type": "Point", "coordinates": [16.5939169004446, 49.1985235998843] }, "properties": { "FID": 238, "NAZEV": "mobily-servis.cz", "Y": 49.1985236, "X": 16.5939169, "KONTAKT": "http://www.mobily-servis.cz/", "SUBKATEGOR": "servis mobilů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 239, "geometry": { "type": "Point", "coordinates": [16.6073799996873, 49.2009199999581] }, "properties": { "FID": 239, "NAZEV": "OPRAViPHONE.CZ", "Y": 49.20092, "X": 16.60738, "KONTAKT": "https://www.opraviphone.cz/", "SUBKATEGOR": "servis mobilů", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 240, "geometry": { "type": "Point", "coordinates": [16.682880000112, 49.173620000063] }, "properties": { "FID": 240, "NAZEV": "Český servis", "Y": 49.17362, "X": 16.68288, "KONTAKT": "https://www.ceskyservis.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 241, "geometry": { "type": "Point", "coordinates": [16.6025400004207, 49.2004099998217] }, "properties": { "FID": 241, "NAZEV": "DUK-PC.COM - Servis notebooků", "Y": 49.20041, "X": 16.60254, "KONTAKT": "https://www.duk-pc.com/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 242, "geometry": { "type": "Point", "coordinates": [16.6426199997132, 49.2056899995939] }, "properties": { "FID": 242, "NAZEV": "ing.Starý,servis elektroniky", "Y": 49.20569, "X": 16.64262, "KONTAKT": "https://www.elektrostary.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 243, "geometry": { "type": "Point", "coordinates": [16.6151599996343, 49.1988499998277] }, "properties": { "FID": 243, "NAZEV": "MacPodpora Brno", "Y": 49.19885, "X": 16.61516, "KONTAKT": "https://macpodpora.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 244, "geometry": { "type": "Point", "coordinates": [16.6234400001559, 49.2085700002054] }, "properties": { "FID": 244, "NAZEV": "ProComs servis, s.r.o.", "Y": 49.20857, "X": 16.62344, "KONTAKT": "http://www.procoms.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 245, "geometry": { "type": "Point", "coordinates": [16.6034599996793, 49.19240000006] }, "properties": { "FID": 245, "NAZEV": "Servis notebooků", "Y": 49.1924, "X": 16.60346, "KONTAKT": "https://www.brno.notebooksupport.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 246, "geometry": { "type": "Point", "coordinates": [16.6122100002913, 49.2003299997298] }, "properties": { "FID": 246, "NAZEV": "Servis notebooků R-PASS s.r.o.", "Y": 49.20033, "X": 16.61221, "KONTAKT": "https://www.r-pass.cz/servis-notebooku-brno/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 247, "geometry": { "type": "Point", "coordinates": [16.6136300001244, 49.2000700003303] }, "properties": { "FID": 247, "NAZEV": "Servis PC Brno PC21", "Y": 49.20007, "X": 16.61363, "KONTAKT": "https://servis-pc.webnode.cz/kontakt/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 248, "geometry": { "type": "Point", "coordinates": [16.6828831000751, 49.2131609996804] }, "properties": { "FID": 248, "NAZEV": "Spraveno.cz Brno", "Y": 49.213161, "X": 16.6828831, "KONTAKT": "https://spraveno.kvisova.cz//", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 249, "geometry": { "type": "Point", "coordinates": [16.5727899999586, 49.2328500002274] }, "properties": { "FID": 249, "NAZEV": "Servis počítačů a notebooků Brno", "Y": 49.23285, "X": 16.57279, "KONTAKT": "https://www.servis-pocitacu-brno.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 250, "geometry": { "type": "Point", "coordinates": [16.572786700346, 49.2328455998446] }, "properties": { "FID": 250, "NAZEV": "Servis tabletů Brno", "Y": 49.2328456, "X": 16.5727867, "KONTAKT": "https://www.servis-tabletu-brno.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }, { "type": "Feature", "id": 251, "geometry": { "type": "Point", "coordinates": [16.6862600003988, 49.2086500002973] }, "properties": { "FID": 251, "NAZEV": "servisvbrne.cz", "Y": 49.20865, "X": 16.68626, "KONTAKT": "http://www.servisvbrne.cz/", "SUBKATEGOR": "servis PC, notebooků", "KATEGORIE": "Opravny spotřebního zboží" } }] } },
+            {
+                "id": 5, "name": "rekrabicka", "data": { "type": "FeatureCollection", "features": [{ "type": "Feature", "id": 1, "geometry": { "type": "Point", "coordinates": [16.5781583, 49.1911728] }, "properties": { "id": 18, "nazev": "Jet Investment, a.s.", "web": "https://www.jetinvestment.cz/", "Y": 49.1911728, "X": 16.5781583, "krabicka": 1, "kelimek": 0, "ulice": "Hlinky 49/126", "PSČ": " 603 00 Brno - Pisárky", "ObjectId": 1, "GlobalID": "f1af7cd3-35f8-40f4-b5a6-a50e0abdfde1" } }, { "type": "Feature", "id": 2, "geometry": { "type": "Point", "coordinates": [16.5974842, 49.2103844] }, "properties": { "id": 84, "nazev": "Café Fresh - Bistro U Jakoubků ", "web": "https://www.facebook.com/CafeFreshBotanicka", "Y": 49.2103844, "X": 16.5974842, "krabicka": 1, "kelimek": 0, "ulice": "Botanická 55/57", "PSČ": " 602 00 Brno - Ponava", "ObjectId": 2, "GlobalID": "9f8e840c-c8ef-4f81-803b-0be468d0b04c" } }, { "type": "Feature", "id": 4, "geometry": { "type": "Point", "coordinates": [16.6084875, 49.2169217] }, "properties": { "id": 210, "nazev": "Forky's Brno - Cimburková", "web": "https://www.forkys.eu/", "Y": 49.2169217, "X": 16.6084875, "krabicka": 1, "kelimek": 0, "ulice": "Cimburkova 593/4", "PSČ": " 612 00 Brno - Ponava", "ObjectId": 4, "GlobalID": "cf130b4c-5666-447b-967a-d133f4c75882" } }, { "type": "Feature", "id": 5, "geometry": { "type": "Point", "coordinates": [16.6331892, 49.2075542] }, "properties": { "id": 228, "nazev": "Rebelbean - Lazaretní", "web": "https://www.rebelbean.kitchen/kavarny", "Y": 49.2075542, "X": 16.6331892, "krabicka": 1, "kelimek": 0, "ulice": "Lazaretní 959/9 Brno (budova ZET office", "PSČ": " areál nové zbrojovky)", "ObjectId": 5, "GlobalID": "eada707f-f04d-4091-af85-a5b273dcc8a2" } }, { "type": "Feature", "id": 6, "geometry": { "type": "Point", "coordinates": [16.616511, 49.190058] }, "properties": { "id": 264, "nazev": "Rebelbean Vlněna", "web": "https://www.facebook.com/rebelbeanvlnena/", "Y": 49.190058, "X": 16.616511, "krabicka": 1, "kelimek": 0, "ulice": "Přízova 526/5", "PSČ": " 602 00 Brno - Trnitá", "ObjectId": 6, "GlobalID": "727cdb56-457f-4142-914b-33335038f3f6" } }, { "type": "Feature", "id": 7, "geometry": { "type": "Point", "coordinates": [16.61623, 49.189205] }, "properties": { "id": 267, "nazev": "Perfect Canteen - Grand Kitchen Vlněna BRNO", "web": "https://www.perfectcanteen.cz/nase-kantyny/grand-kitchen-vlnena", "Y": 49.189205, "X": 16.61623, "krabicka": 1, "kelimek": 1, "ulice": "Přízova 526/7", "PSČ": " 602 00 Brno - Trnitá", "ObjectId": 7, "GlobalID": "6680d696-5911-4613-b55c-64b594faaafa" } }, { "type": "Feature", "id": 8, "geometry": { "type": "Point", "coordinates": [16.644495, 49.2134286] }, "properties": { "id": 276, "nazev": "Salmo World s.r.o.", "web": null, "Y": 49.2134286, "X": 16.644495, "krabicka": 1, "kelimek": 0, "ulice": "Karlova 933/7", "PSČ": " 61400 Brno - Maloměřice", "ObjectId": 8, "GlobalID": "a37ac1b7-5cd9-4793-ad34-e75c5bbd8615" } }, { "type": "Feature", "id": 10, "geometry": { "type": "Point", "coordinates": [16.6125011, 49.1956214] }, "properties": { "id": 435, "nazev": "Die Küche", "web": "http://www.diekuche.cz/", "Y": 49.1956214, "X": 16.6125011, "krabicka": 1, "kelimek": 1, "ulice": "Kabinet MÚZ", "PSČ": " Sukova 4, Brno", "ObjectId": 10, "GlobalID": "5699e523-e272-4697-832a-e165ceca3613" } }, { "type": "Feature", "id": 11, "geometry": { "type": "Point", "coordinates": [16.6032714, 49.1990892] }, "properties": { "id": 555, "nazev": "Restaurace U Draka", "web": "http://www.udraka.cz/", "Y": 49.1990892, "X": 16.6032714, "krabicka": 1, "kelimek": 0, "ulice": "Veveří 451/4", "PSČ": " 60200 Brno - Veveří, Česko", "ObjectId": 11, "GlobalID": "97c287f0-3190-45b2-8b10-76b58a961eeb" } }, { "type": "Feature", "id": 13, "geometry": { "type": "Point", "coordinates": [16.5984836, 49.2004081] }, "properties": { "id": 666, "nazev": "KaFFe", "web": "https://www.facebook.com/kaFFeMUNI", "Y": 49.2004081, "X": 16.5984836, "krabicka": 1, "kelimek": 1, "ulice": "Arne Nováka 1", "PSČ": " 60200 Brno", "ObjectId": 13, "GlobalID": "4a5f8a28-6ff4-4eab-8730-0143d0ffaf26" } }, { "type": "Feature", "id": 22, "geometry": { "type": "Point", "coordinates": [16.602734, 49.201907] }, "properties": { "id": 1023, "nazev": "Mediteran Bistro", "web": "https://www.mediteranbistro.cz", "Y": 49.201907, "X": 16.602734, "krabicka": 1, "kelimek": 1, "ulice": "Smetanova 19", "PSČ": " 602 00, Brno-střed", "ObjectId": 22, "GlobalID": "da222990-eafb-41cc-930c-244827751b6c" } }, { "type": "Feature", "id": 23, "geometry": { "type": "Point", "coordinates": [16.6394003, 49.1715114] }, "properties": { "id": 1029, "nazev": "Jídelna Hájecká", "web": "http://jidelnahajecka.cz/index.html", "Y": 49.1715114, "X": 16.6394003, "krabicka": 1, "kelimek": 0, "ulice": "Hájecká 1068/14", "PSČ": " 618 00 Brno - Černovice", "ObjectId": 23, "GlobalID": "5bf32aa2-45fd-4236-b3c4-f6100d94c791" } }, { "type": "Feature", "id": 24, "geometry": { "type": "Point", "coordinates": [16.610217, 49.197109] }, "properties": { "id": 1056, "nazev": "Soul Bistro", "web": "https://www.facebook.com/Soul-Bistro-233427320179534/", "Y": 49.197109, "X": 16.610217, "krabicka": 1, "kelimek": 1, "ulice": "Jezuitská 7/10", "PSČ": " 602 00, Brno", "ObjectId": 24, "GlobalID": "2f3176d1-66d1-48d8-87b6-0372a5056bcc" } }, { "type": "Feature", "id": 25, "geometry": { "type": "Point", "coordinates": [16.612244, 49.197196] }, "properties": { "id": 1116, "nazev": "Fabrik Urban House", "web": "https://urban.fabrik.cz", "Y": 49.197196, "X": 16.612244, "krabicka": 1, "kelimek": 1, "ulice": "Rooseveltova 9", "PSČ": " Brno, 602 00", "ObjectId": 25, "GlobalID": "332eab4c-fb1c-4443-839d-c88719e221fa" } }, { "type": "Feature", "id": 26, "geometry": { "type": "Point", "coordinates": [16.6118183, 49.1957508] }, "properties": { "id": 1119, "nazev": "4pokoje", "web": "https://www.miluju4pokoje.cz/", "Y": 49.1957508, "X": 16.6118183, "krabicka": 1, "kelimek": 1, "ulice": "Vachova 45/6", "PSČ": " 602 00 Brno-město", "ObjectId": 26, "GlobalID": "30d95b25-1462-4c66-9ba2-4fb331704ea2" } }, { "type": "Feature", "id": 27, "geometry": { "type": "Point", "coordinates": [16.5934122, 49.1998933] }, "properties": { "id": 1125, "nazev": "Nasyp si - bezobalový obchod", "web": "https://www.nasypsi.cz", "Y": 49.1998933, "X": 16.5934122, "krabicka": 1, "kelimek": 1, "ulice": "Úvoz 434/84", "PSČ": " 602 00 Brno - Veveří", "ObjectId": 27, "GlobalID": "184417a3-3304-41b5-a380-bde2e07bcbdc" } }, { "type": "Feature", "id": 28, "geometry": { "type": "Point", "coordinates": [16.6065839, 49.1877792] }, "properties": { "id": 1242, "nazev": "Tusto Titanium", "web": "http://titanium.tusto.cz/", "Y": 49.1877792, "X": 16.6065839, "krabicka": 1, "kelimek": 0, "ulice": "Nové sady 996/25", "PSČ": " 602 00 Brno - Staré Brno", "ObjectId": 28, "GlobalID": "ba6873fc-4088-482f-831d-a4fe61f83df4" } }, { "type": "Feature", "id": 29, "geometry": { "type": "Point", "coordinates": [16.6064572, 49.1889972] }, "properties": { "id": 1245, "nazev": "Restaurace u Emila", "web": "https://www.restauraceuemila.cz/", "Y": 49.1889972, "X": 16.6064572, "krabicka": 1, "kelimek": 0, "ulice": "Hybešova 224/13", "PSČ": " 602 00 Brno - Staré Brno", "ObjectId": 29, "GlobalID": "5ed5d72b-6a83-4cee-ad31-590dc9c4a309" } }, { "type": "Feature", "id": 30, "geometry": { "type": "Point", "coordinates": [16.6108994, 49.2036514] }, "properties": { "id": 1248, "nazev": "Pilgrim", "web": "https://www.facebook.com/pilgrims.cz/", "Y": 49.2036514, "X": 16.6108994, "krabicka": 1, "kelimek": 0, "ulice": "třída Kpt. Jaroše 1845/26", "PSČ": " 602 00 Brno - Černá Pole", "ObjectId": 30, "GlobalID": "53041c59-baad-4620-95b1-4247111497bf" } }, { "type": "Feature", "id": 31, "geometry": { "type": "Point", "coordinates": [16.6081231, 49.1909842] }, "properties": { "id": 1257, "nazev": "L'eau Vive", "web": "https://www.leauvive.cz/", "Y": 49.1909842, "X": 16.6081231, "krabicka": 1, "kelimek": 0, "ulice": "Petrov 274/2", "PSČ": " 602 00 Brno-město", "ObjectId": 31, "GlobalID": "c03be6ef-8975-43c6-8b2a-246a3cc99460" } }, { "type": "Feature", "id": 32, "geometry": { "type": "Point", "coordinates": [16.4839328, 49.2074119] }, "properties": { "id": 1284, "nazev": "U Richarda", "web": "http://uricharda.cz/", "Y": 49.2074119, "X": 16.4839328, "krabicka": 1, "kelimek": 0, "ulice": "Ríšova 64/12", "PSČ": " 641 00 Brno - Žebětín", "ObjectId": 32, "GlobalID": "48ee207f-c693-4972-a7d7-b858aa2072ae" } }, { "type": "Feature", "id": 33, "geometry": { "type": "Point", "coordinates": [16.5971581, 49.2205869] }, "properties": { "id": 1305, "nazev": "Klub Cestovatelů", "web": "https://www.klubcestovatelubrno.cz/", "Y": 49.2205869, "X": 16.5971581, "krabicka": 1, "kelimek": 0, "ulice": "Veleslavínova 183/14", "PSČ": " 612 00 Brno - Královo Pole", "ObjectId": 33, "GlobalID": "71ea2285-9098-4bcf-837b-81c276d07093" } }, { "type": "Feature", "id": 34, "geometry": { "type": "Point", "coordinates": [16.5980517, 49.1717767] }, "properties": { "id": 1335, "nazev": "Táckárna", "web": "https://www.tackarna.cz/", "Y": 49.1717767, "X": 16.5980517, "krabicka": 1, "kelimek": 0, "ulice": "Londýnské náměstí 853/1", "PSČ": " 639 00 Brno - Štýřice", "ObjectId": 34, "GlobalID": "59583ca4-51dc-43ca-bfb4-4cbb1492a358" } }, { "type": "Feature", "id": 35, "geometry": { "type": "Point", "coordinates": [16.6207228, 49.1921894] }, "properties": { "id": 1338, "nazev": "Little Saigon", "web": "https://little-saigon.sebou.cz/", "Y": 49.1921894, "X": 16.6207228, "krabicka": 1, "kelimek": 0, "ulice": "Špitálka 124/37", "PSČ": " 602 00 Brno - Trnitá", "ObjectId": 35, "GlobalID": "7a573e2a-907d-43c7-8996-6bce832c4232" } }, { "type": "Feature", "id": 36, "geometry": { "type": "Point", "coordinates": [16.6007008, 49.1985058] }, "properties": { "id": 1347, "nazev": "Zdravý život", "web": "https://www.zzbrno.cz/restaurace/restaurace.html", "Y": 49.1985058, "X": 16.6007008, "krabicka": 1, "kelimek": 0, "ulice": "Jaselská 194/11", "PSČ": " 602 00 Brno - Veveří", "ObjectId": 36, "GlobalID": "37735eba-5a92-4af7-b213-f44f4a52036f" } }, { "type": "Feature", "id": 37, "geometry": { "type": "Point", "coordinates": [16.6077353, 49.1920769] }, "properties": { "id": 1368, "nazev": "Domovina", "web": "https://www.facebook.com/vietnamskebagety", "Y": 49.1920769, "X": 16.6077353, "krabicka": 1, "kelimek": 0, "ulice": "Zelný trh 293/10", "PSČ": " 602 00 Brno-město", "ObjectId": 37, "GlobalID": "772cf503-ac39-4315-af57-77eaf3d4f49b" } }, { "type": "Feature", "id": 38, "geometry": { "type": "Point", "coordinates": [16.5982328, 49.1711236] }, "properties": { "id": 1395, "nazev": "Restaurace Eurest ", "web": "https://www.eurest-brno.cz/", "Y": 49.1711236, "X": 16.5982328, "krabicka": 1, "kelimek": 0, "ulice": "Londýnské nám. 881/6", "PSČ": " 639 00 Brno - Štýřice", "ObjectId": 38, "GlobalID": "a483fee9-0834-4ec2-9ce3-08c8ea21e176" } }, { "type": "Feature", "id": 39, "geometry": { "type": "Point", "coordinates": [16.6017086, 49.2016386] }, "properties": { "id": 1416, "nazev": "Garden Food Concept ", "web": "https://www.gardenfoodconcept.cz/", "Y": 49.2016386, "X": 16.6017086, "krabicka": 1, "kelimek": 0, "ulice": "Kounicova 39", "PSČ": " 602 00 Brno", "ObjectId": 39, "GlobalID": "e13aaf71-9bc4-4dda-8aa5-fe19c3e6bccd" } }, { "type": "Feature", "id": 40, "geometry": { "type": "Point", "coordinates": [16.594443, 49.199471] }, "properties": { "id": 1443, "nazev": "VERONI coffee & chocolate", "web": "https://www.veroni.cz", "Y": 49.199471, "X": 16.594443, "krabicka": 1, "kelimek": 0, "ulice": "Gorkého 85/42", "PSČ": " 602 00 Brno-střed-Veveří", "ObjectId": 40, "GlobalID": "b30bafd5-9a53-47b8-9784-e82a59450f03" } }, { "type": "Feature", "id": 41, "geometry": { "type": "Point", "coordinates": [16.6259442, 49.2013483] }, "properties": { "id": 1488, "nazev": "Žádný Cukrbliky", "web": "http://zadnycukrbliky.cz/", "Y": 49.2013483, "X": 16.6259442, "krabicka": 1, "kelimek": 0, "ulice": "Cejl 109", "PSČ": " 602 00 Brno", "ObjectId": 41, "GlobalID": "715ed16f-b95d-45a3-b9ef-f72565846839" } }, { "type": "Feature", "id": 42, "geometry": { "type": "Point", "coordinates": [16.602591, 49.200488] }, "properties": { "id": 1509, "nazev": "Vegalité", "web": "http://vegalite.cz", "Y": 49.200488, "X": 16.602591, "krabicka": 1, "kelimek": 0, "ulice": "Slovákova 359/10", "PSČ": " 602 00 Brno-střed", "ObjectId": 42, "GlobalID": "688580e2-8c3c-45c6-92ce-2601ddb2f5c4" } }, { "type": "Feature", "id": 43, "geometry": { "type": "Point", "coordinates": [16.612808, 49.194585] }, "properties": { "id": 1512, "nazev": "Castellana Trattoria", "web": "http://www.castellana.cz/", "Y": 49.194584999999996, "X": 16.612808, "krabicka": 1, "kelimek": 0, "ulice": "Novobranská 4", "PSČ": " 602 00 Brno-střed", "ObjectId": 43, "GlobalID": "c310946a-60c1-448b-8f55-d050b59b5d90" } }, { "type": "Feature", "id": 44, "geometry": { "type": "Point", "coordinates": [16.603177, 49.207863] }, "properties": { "id": 1539, "nazev": "Padagali", "web": "http://padagali.cz/", "Y": 49.207863, "X": 16.603177, "krabicka": 1, "kelimek": 0, "ulice": "Kotlářská 51a", "PSČ": " 602 00 Brno-střed", "ObjectId": 44, "GlobalID": "44824b88-1aca-445d-aa2b-6674a9b09696" } }, { "type": "Feature", "id": 45, "geometry": { "type": "Point", "coordinates": [16.613832, 49.202746] }, "properties": { "id": 1584, "nazev": "Fabrik Food Factory", "web": "https://factory.fabrik.cz", "Y": 49.202746, "X": 16.613832, "krabicka": 1, "kelimek": 0, "ulice": "Náměstí 28 října 20", "PSČ": " Brno, 602 00", "ObjectId": 45, "GlobalID": "fc338520-f126-42f5-a076-4167ca3cc2b4" } }, { "type": "Feature", "id": 46, "geometry": { "type": "Point", "coordinates": [16.6021869, 49.1560986] }, "properties": { "id": 1599, "nazev": "Jídelna ABB Brno", "web": "https://www.odboryabbbrno.cz/rubrika/jidelnicek-abb-brno/#", "Y": 49.1560986, "X": 16.6021869, "krabicka": 1, "kelimek": 0, "ulice": "Vídeňská 117", "PSČ": " Brno 619 00", "ObjectId": 46, "GlobalID": "7ac61393-63d3-4fab-bd32-b6114e6c11cf" } }, { "type": "Feature", "id": 47, "geometry": { "type": "Point", "coordinates": [16.608687, 49.196368] }, "properties": { "id": 1629, "nazev": "Forky's", "web": "https://www.forkys.eu", "Y": 49.196368, "X": 16.608687, "krabicka": 1, "kelimek": 0, "ulice": "Jakubské náměstí 1", "PSČ": " Brno, 602 00", "ObjectId": 47, "GlobalID": "b74c90e0-184a-4c67-84bf-423ece03876a" } }, { "type": "Feature", "id": 48, "geometry": { "type": "Point", "coordinates": [16.612487, 49.195899] }, "properties": { "id": 1650, "nazev": "Jedna Báseň", "web": "https://jedna-basen.cz", "Y": 49.195899, "X": 16.612487, "krabicka": 1, "kelimek": 0, "ulice": "Sukova 2", "PSČ": " Brno, 602 00", "ObjectId": 48, "GlobalID": "fb9bda95-1024-4515-96be-f94508d9a3fe" } }, { "type": "Feature", "id": 51, "geometry": { "type": "Point", "coordinates": [16.5759033, 49.2257683] }, "properties": { "id": 1695, "nazev": "Sly Fox", "web": "https://www.sly-fox.cz/", "Y": 49.2257683, "X": 16.5759033, "krabicka": 1, "kelimek": 1, "ulice": "Technická 2848/8", "PSČ": " 616 00 Brno - Královo Pole", "ObjectId": 51, "GlobalID": "cb01b073-d399-4eb3-bcdc-fdfcb83b982b" } }, { "type": "Feature", "id": 53, "geometry": { "type": "Point", "coordinates": [16.6183739, 49.2017128] }, "properties": { "id": 1709, "nazev": "ITAlove", "web": "https://www.facebook.com/ITAloveBrno", "Y": 49.2017128, "X": 16.6183739, "krabicka": 1, "kelimek": 1, "ulice": "Francouzská 364/33", "PSČ": " 602 00 Brno - Zábrdovice", "ObjectId": 53, "GlobalID": "bd1ec81b-09d8-42b6-a5d7-b6c208a7361d" } }] }
+            },
+            {
+                "id": 6, "name": "rekelimek", "data": { "type": "FeatureCollection", "features": [{ "type": "Feature", "id": 3, "geometry": { "type": "Point", "coordinates": [16.57701, 49.22438] }, "properties": { "id": 177, "nazev": "Kantýna a kavárna Strojovna", "web": "https://www.facebook.com/kantynakavarnastrojovna/", "Y": 49.22438, "X": 16.57701, "krabicka": 0, "kelimek": 1, "ulice": "Technická 2", "PSČ": " Brno-Královo Pole, Česko", "ObjectId": 3, "GlobalID": "eb101dd8-5fee-40df-9ed3-286956405ae2" } }, { "type": "Feature", "id": 7, "geometry": { "type": "Point", "coordinates": [16.61623, 49.189205] }, "properties": { "id": 267, "nazev": "Perfect Canteen - Grand Kitchen Vlněna BRNO", "web": "https://www.perfectcanteen.cz/nase-kantyny/grand-kitchen-vlnena", "Y": 49.189205, "X": 16.61623, "krabicka": 1, "kelimek": 1, "ulice": "Přízova 526/7", "PSČ": " 602 00 Brno - Trnitá", "ObjectId": 7, "GlobalID": "6680d696-5911-4613-b55c-64b594faaafa" } }, { "type": "Feature", "id": 10, "geometry": { "type": "Point", "coordinates": [16.6125011, 49.1956214] }, "properties": { "id": 435, "nazev": "Die Küche", "web": "http://www.diekuche.cz/", "Y": 49.1956214, "X": 16.6125011, "krabicka": 1, "kelimek": 1, "ulice": "Kabinet MÚZ", "PSČ": " Sukova 4, Brno", "ObjectId": 10, "GlobalID": "5699e523-e272-4697-832a-e165ceca3613" } }, { "type": "Feature", "id": 12, "geometry": { "type": "Point", "coordinates": [16.5771731, 49.21306] }, "properties": { "id": 558, "nazev": "Red Piranha ", "web": "https://redpiranha.cz", "Y": 49.21306, "X": 16.5771731, "krabicka": 0, "kelimek": 1, "ulice": "Puškinova 1627/1", "PSČ": " 616 00 Brno - Žabovřesky", "ObjectId": 12, "GlobalID": "3d46f349-f205-45f7-9fa3-41f1ad7770ca" } }, { "type": "Feature", "id": 13, "geometry": { "type": "Point", "coordinates": [16.5984836, 49.2004081] }, "properties": { "id": 666, "nazev": "KaFFe", "web": "https://www.facebook.com/kaFFeMUNI", "Y": 49.2004081, "X": 16.5984836, "krabicka": 1, "kelimek": 1, "ulice": "Arne Nováka 1", "PSČ": " 60200 Brno", "ObjectId": 13, "GlobalID": "4a5f8a28-6ff4-4eab-8730-0143d0ffaf26" } }, { "type": "Feature", "id": 14, "geometry": { "type": "Point", "coordinates": [16.5977611, 49.2080728] }, "properties": { "id": 750, "nazev": "Polárkafé", "web": "https://www.facebook.com/polarkafe/", "Y": 49.2080728, "X": 16.5977611, "krabicka": 0, "kelimek": 1, "ulice": "Tučkova 922/34", "PSČ": " Brno", "ObjectId": 14, "GlobalID": "c53532eb-1140-4c48-9d48-3b399a42bb07" } }, { "type": "Feature", "id": 15, "geometry": { "type": "Point", "coordinates": [16.60012, 49.19888] }, "properties": { "id": 753, "nazev": "Panksy", "web": "https://www.facebook.com/panksypalacinky/", "Y": 49.19888, "X": 16.60012, "krabicka": 0, "kelimek": 1, "ulice": "Jaselská 200/17", "PSČ": " Brno-střed-Veveří, Česko", "ObjectId": 15, "GlobalID": "b0b8a8d0-61a0-47d7-b587-48fd2ab0093b" } }, { "type": "Feature", "id": 16, "geometry": { "type": "Point", "coordinates": [16.60377, 49.20908] }, "properties": { "id": 774, "nazev": "Buchta B", "web": "https://www.facebook.com/BuchtaBCoffee/", "Y": 49.20908, "X": 16.60377, "krabicka": 0, "kelimek": 1, "ulice": "Štefánikova 85/16", "PSČ": " Brno-střed, Česko", "ObjectId": 16, "GlobalID": "e6b2cc76-517f-43b8-9773-4f61881a87e6" } }, { "type": "Feature", "id": 17, "geometry": { "type": "Point", "coordinates": [16.594, 49.19057] }, "properties": { "id": 888, "nazev": "Tutti Frutti", "web": "https://www.facebook.com/tuttifruttibrno/", "Y": 49.19057, "X": 16.594, "krabicka": 0, "kelimek": 1, "ulice": "Mendlovo nám. 18", "PSČ": " Brno-střed-Staré Brno, Česko", "ObjectId": 17, "GlobalID": "af51f8ed-8dc1-4fcb-b365-1ca9d55a5667" } }, { "type": "Feature", "id": 18, "geometry": { "type": "Point", "coordinates": [16.5790864, 49.26202] }, "properties": { "id": 906, "nazev": "Globus Brno", "web": "https://www.facebook.com/GlobusCesko/", "Y": 49.26202, "X": 16.5790864, "krabicka": 0, "kelimek": 1, "ulice": "Hradecká 408/40", "PSČ": " Brno", "ObjectId": 18, "GlobalID": "d87fa6ba-df33-432e-980a-e15cc0377cb4" } }, { "type": "Feature", "id": 19, "geometry": { "type": "Point", "coordinates": [16.6077, 49.19683] }, "properties": { "id": 930, "nazev": "Kopi Luwak", "web": "https://www.facebook.com/cibetkovakava/", "Y": 49.19683, "X": 16.6077, "krabicka": 0, "kelimek": 1, "ulice": "Rašínova 10", "PSČ": " 602 00 Brno-střed, Česko", "ObjectId": 19, "GlobalID": "dbde8c09-f3dd-4219-b5cd-392df2e64b0c" } }, { "type": "Feature", "id": 20, "geometry": { "type": "Point", "coordinates": [16.61238, 49.19522] }, "properties": { "id": 936, "nazev": "Pražírna Nilaja", "web": "https://www.facebook.com/prazirnaNilaja/", "Y": 49.19522, "X": 16.61238, "krabicka": 0, "kelimek": 1, "ulice": "Kobližná 53/24", "PSČ": " Brno-střed-Brno-město, Česko", "ObjectId": 20, "GlobalID": "d626d330-edd1-46c0-be96-9179007df9d8" } }, { "type": "Feature", "id": 21, "geometry": { "type": "Point", "coordinates": [16.60077, 49.1989] }, "properties": { "id": 939, "nazev": "Čajovna Za zrcadlem", "web": "https://www.facebook.com/cajovnazazrcadlem/", "Y": 49.1989, "X": 16.60077, "krabicka": 0, "kelimek": 1, "ulice": "Jaselská 16", "PSČ": " Brno-střed-Veveří, Česko", "ObjectId": 21, "GlobalID": "f9e3578e-90a5-4036-b801-6e7fcb4a75b9" } }, { "type": "Feature", "id": 22, "geometry": { "type": "Point", "coordinates": [16.602734, 49.201907] }, "properties": { "id": 1023, "nazev": "Mediteran Bistro", "web": "https://www.mediteranbistro.cz", "Y": 49.201907, "X": 16.602734, "krabicka": 1, "kelimek": 1, "ulice": "Smetanova 19", "PSČ": " 602 00, Brno-střed", "ObjectId": 22, "GlobalID": "da222990-eafb-41cc-930c-244827751b6c" } }, { "type": "Feature", "id": 24, "geometry": { "type": "Point", "coordinates": [16.610217, 49.197109] }, "properties": { "id": 1056, "nazev": "Soul Bistro", "web": "https://www.facebook.com/Soul-Bistro-233427320179534/", "Y": 49.197109, "X": 16.610217, "krabicka": 1, "kelimek": 1, "ulice": "Jezuitská 7/10", "PSČ": " 602 00, Brno", "ObjectId": 24, "GlobalID": "2f3176d1-66d1-48d8-87b6-0372a5056bcc" } }, { "type": "Feature", "id": 25, "geometry": { "type": "Point", "coordinates": [16.612244, 49.197196] }, "properties": { "id": 1116, "nazev": "Fabrik Urban House", "web": "https://urban.fabrik.cz", "Y": 49.197196, "X": 16.612244, "krabicka": 1, "kelimek": 1, "ulice": "Rooseveltova 9", "PSČ": " Brno, 602 00", "ObjectId": 25, "GlobalID": "332eab4c-fb1c-4443-839d-c88719e221fa" } }, { "type": "Feature", "id": 26, "geometry": { "type": "Point", "coordinates": [16.6118183, 49.1957508] }, "properties": { "id": 1119, "nazev": "4pokoje", "web": "https://www.miluju4pokoje.cz/", "Y": 49.1957508, "X": 16.6118183, "krabicka": 1, "kelimek": 1, "ulice": "Vachova 45/6", "PSČ": " 602 00 Brno-město", "ObjectId": 26, "GlobalID": "30d95b25-1462-4c66-9ba2-4fb331704ea2" } }, { "type": "Feature", "id": 27, "geometry": { "type": "Point", "coordinates": [16.5934122, 49.1998933] }, "properties": { "id": 1125, "nazev": "Nasyp si - bezobalový obchod", "web": "https://www.nasypsi.cz", "Y": 49.1998933, "X": 16.5934122, "krabicka": 1, "kelimek": 1, "ulice": "Úvoz 434/84", "PSČ": " 602 00 Brno - Veveří", "ObjectId": 27, "GlobalID": "184417a3-3304-41b5-a380-bde2e07bcbdc" } }, { "type": "Feature", "id": 49, "geometry": { "type": "Point", "coordinates": [16.6070806, 49.2039414] }, "properties": { "id": 1684, "nazev": "Coffee Trail - Lidická", "web": "https://www.coffeetrail.cz/", "Y": 49.2039414, "X": 16.6070806, "krabicka": 0, "kelimek": 1, "ulice": "Lidická 1878/46", "PSČ": " 60200 Brno - Černá Pole", "ObjectId": 49, "GlobalID": "de5afbd8-964a-40cc-b29a-ab8c6e8abc8e" } }, { "type": "Feature", "id": 50, "geometry": { "type": "Point", "coordinates": [16.6034125, 49.2096672] }, "properties": { "id": 1686, "nazev": "Coffee Trail - Štěfánikova", "web": "https://www.coffeetrail.cz/", "Y": 49.2096672, "X": 16.6034125, "krabicka": 0, "kelimek": 1, "ulice": "Štefánikova 93/22", "PSČ": " 60200 Brno - Ponava", "ObjectId": 50, "GlobalID": "246e0380-12ec-4d92-aa3e-8ed0d662d57d" } }, { "type": "Feature", "id": 51, "geometry": { "type": "Point", "coordinates": [16.5759033, 49.2257683] }, "properties": { "id": 1695, "nazev": "Sly Fox", "web": "https://www.sly-fox.cz/", "Y": 49.2257683, "X": 16.5759033, "krabicka": 1, "kelimek": 1, "ulice": "Technická 2848/8", "PSČ": " 616 00 Brno - Královo Pole", "ObjectId": 51, "GlobalID": "cb01b073-d399-4eb3-bcdc-fdfcb83b982b" } }, { "type": "Feature", "id": 52, "geometry": { "type": "Point", "coordinates": [16.5944672, 49.2003175] }, "properties": { "id": 1702, "nazev": "Gabi & Kler s.r.o.", "web": null, "Y": 49.2003175, "X": 16.5944672, "krabicka": 0, "kelimek": 1, "ulice": "Čápkova 17/11", "PSČ": " 60200 Brno - Veveří", "ObjectId": 52, "GlobalID": "dfaada10-1a5e-43ee-981e-d8155297a6f7" } }, { "type": "Feature", "id": 53, "geometry": { "type": "Point", "coordinates": [16.6183739, 49.2017128] }, "properties": { "id": 1709, "nazev": "ITAlove", "web": "https://www.facebook.com/ITAloveBrno", "Y": 49.2017128, "X": 16.6183739, "krabicka": 1, "kelimek": 1, "ulice": "Francouzská 364/33", "PSČ": " 602 00 Brno - Zábrdovice", "ObjectId": 53, "GlobalID": "bd1ec81b-09d8-42b6-a5d7-b6c208a7361d" } }] }
+            }
+        ]
+
 
         // Initialize Leaflet map to brno
         var map = L.map('map').setView([49.1951, 16.6068], 13);
@@ -79,26 +484,6 @@
             maxZoom: 19
         }).addTo(map);
 
-        // Function to update feature information above the map
-        function updateFeatureInfo(feature) {
-            var infoElement = document.getElementById('feature-info');
-            infoElement.innerHTML = '<strong>' + feature.properties.TITLE + '</strong><br>' + feature.properties.DESCRIPTION;
-        }
-
-        function updateChallengeInfo(challenge) {
-            var infoElement = document.getElementById('challenge');
-            infoElement.innerHTML = '<strong>' + challenge.name;
-        }
-
-        function updateComments(comments) {
-            const commentsList = document.getElementById('commentsList');
-            commentsList.innerHTML = '';
-            comments.forEach(comment => {
-                const li = document.createElement('li');
-                li.textContent = comment.text;
-                commentsList.appendChild(li);
-            });
-        }
 
         // Function to get the current week number of the year
         function getWeekNumber(d) {
@@ -118,7 +503,10 @@
         const weekNumber = getWeekNumber(currentDate);
 
         // Calculate the index using modulo 6
-        const challengeIndex = weekNumber % 6;
+        //const challengeIndex = weekNumber % 6;
+
+        // na zkoušku ze fungujou všechny
+        const challengeIndex = 3
 
         // Select the challenge
         const selectedChallenge = challenges[challengeIndex];
@@ -129,29 +517,34 @@
             <h2>${selectedChallenge.name}</h2>
         `;
 
-        // Function to handle form submission for adding new comment
-        document.getElementById('commentForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const newComment = document.getElementById('newComment').value;
-            const placeId = 1; // Example: replace with actual place id logic if needed
 
-            // Assuming you directly update the comments array in the GeoJSON
-            geojsonData.features[0].properties.COMMENTS.push({ text: newComment });
-
-            // Update comments list in UI
-            updateComments(geojsonData.features[0].properties.COMMENTS);
-
-            // Clear textarea
-            document.getElementById('newComment').value = '';
-        });
+        /*Když se klikne na místo v mapě, vypíše správně informace o něm nad tu mapu*/
+        function updateFeatureInfo(feature, challengeIndex) {
+            var infoElement = document.getElementById('feature-info');
+            var current = challenges[challengeIndex]
+            if (current.id === 1) {
+                infoElement.innerHTML = '<strong>' + feature.properties.title + '</strong><br>' + feature.properties.description;
+            }
+            if (current.id === 2 || current.id === 3 || current.id === 4) {
+                infoElement.innerHTML = `
+    <strong>${feature.properties.NAZEV}</strong><br>
+    <a href="${feature.properties.KONTAKT}" target="_blank">${feature.properties.KONTAKT}</a>
+`;
+            }
+            if (current.id === 5 || current.id === 6) {
+                infoElement.innerHTML = `
+    <strong>${feature.properties.nazev}</strong><br>
+    <a href="${feature.properties.web}" target="_blank">${feature.properties.web}</a>
+`;
+            }
+        }
 
         // Add GeoJSON layer with click event handling
-        L.geoJSON(geojsonData, {
+        L.geoJSON(selectedChallenge.data, {
             onEachFeature: function (feature, layer) {
                 // Bind click event
                 layer.on('click', function (e) {
-                    updateFeatureInfo(feature);
-                    updateComments(feature.properties.COMMENTS);
+                    updateFeatureInfo(feature, challengeIndex);
                 });
             }
         }).addTo(map);
