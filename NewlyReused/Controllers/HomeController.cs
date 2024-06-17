@@ -33,7 +33,7 @@ public class HomeController : Controller
         }
     }
 
-    public IActionResult Privacy()
+    public IActionResult About()
     {
         return View();
     }
@@ -49,33 +49,33 @@ public class HomeController : Controller
     }
     public IActionResult Detail1()
     {
-       return View();
+        return View();
     }
 
     public IActionResult Detail2()
-        {
-            return View();
-        }
+    {
+        return View();
+    }
 
     public IActionResult Detai3l()
-        {
-            return View();
-        }
+    {
+        return View();
+    }
 
     public IActionResult Detail4()
-        {
-            return View();
-        }
+    {
+        return View();
+    }
 
     public IActionResult Detail5()
-        {
-            return View();
-        }
+    {
+        return View();
+    }
 
     public IActionResult Detail6()
-        {
-            return View();
-        }
+    {
+        return View();
+    }
 
 
     public async Task<IActionResult> Index2()

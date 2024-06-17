@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About NewlyReused</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+        @*color:#2c3e50;*@
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        .privacy-policy {
+            margin-top: 20px;
+            padding-top: 10px;
+        @*border-top:1pxsolid#ddd;*@
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>@ViewData["Title"]</h1>
+        <p>Welcome to NewlyReused!</p>
+        <p>
+            NewlyReused is designed to help you incorporate sustainable practices into your daily life. Every week, we
+            present a new challenge that promotes eco-friendly habits, complete with educational content to provide more
+            context regarding the challenges’ impact and topic. Use our interactive map or list of places to find nearby
+            locations in Brno to fulfill challenges, such as refilling your water bottle. Let's make a big impact
+            together by small changes :).
+        </p>
+        <p>
+            The app was created as a part of the PA181 course at FI MUNI.
+        </p>
+        <div class="call-to-action">
+            <p>
+                <strong>Share Your Achievements!</strong> Inspire others by sharing your
+                completed challenges on social media with the hashtag <strong>#NewlyReused</strong>.
+            </p>
+        </div>
+        @* <div class="privacy-policy">
+        <h3>Privacy Policy</h3>
+        <p>We do not collect or store any personal data.</p>
+        </div> *@
+    </div>
+</body>
+
+</html>
